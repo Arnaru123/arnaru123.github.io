@@ -1,17 +1,31 @@
 import { useEffect } from "react";
-import Box from "@mui/material/Box";
+import { Box, CircularProgress } from "@mui/material";
+import { LoadingStatus } from "../types/loadingStatus";
 import { useDispatch, useSelector } from "../store";
-import { charsSelector } from "../store/selectors/allChars";
+import {
+  charsSelector,
+  loadingCharsSelector,
+} from "../store/selectors/allChars";
 import { fetchChars } from "../store/slices/allChars";
 import { CharCard } from "./CharCard";
 
 export const CharList = () => {
   const chars = useSelector(charsSelector);
+  const loading = useSelector(loadingCharsSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchChars());
   }, [dispatch]);
+
+  if (loading === LoadingStatus.PENDING) {
+    return (
+      <>
+        <h1>Rick and Morty chars</h1>
+        <CircularProgress color="success" />
+      </>
+    );
+  }
 
   return (
     <Box
