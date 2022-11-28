@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type FavoriteIds = {
-  entities: { [key: string]: string };
+  // entities: { [key: string]: string };
   ids: string[];
 }
 
 const sliceName = 'favoriteChars';
 
 const initialState: FavoriteIds = {
-  entities: {},
+  // entities: {},
   ids: []
 }
 
@@ -17,11 +17,11 @@ const slice = createSlice({
   initialState,
   reducers: {
     addToFavorite(state, { payload }) {
-      state.entities[payload] = payload
+      // state.entities[payload] = payload
       state.ids.push(payload)
     },
     removeFromFavorite(state, { payload }) {
-      delete state.entities[payload]
+      // delete state.entities[payload]
       state.ids = state.ids.filter((id) => id !== payload)
     }
   }

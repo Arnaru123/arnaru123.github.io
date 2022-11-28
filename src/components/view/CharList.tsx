@@ -1,16 +1,13 @@
 import { useEffect } from "react";
 import { Box, CircularProgress } from "@mui/material";
-import { LoadingStatus } from "../types/loadingStatus";
-import { useDispatch, useSelector } from "../store";
-import {
-  charsSelector,
-  loadingCharsSelector,
-} from "../store/selectors/allChars";
-import { fetchChars } from "../store/slices/allChars";
-import { CharCard } from "./CharCard";
+import { LoadingStatus } from "../../types/loadingStatus";
+import { useDispatch, useSelector } from "../../store";
+import { ids, loadingCharsSelector } from "../../store/selectors/allChars";
+import { fetchChars } from "../../store/slices/allChars";
+import { CharCard } from "../CharCard";
 
 export const CharList = () => {
-  const chars = useSelector(charsSelector);
+  const chars = useSelector((state) => ids(state));
   const loading = useSelector(loadingCharsSelector);
   const dispatch = useDispatch();
 
@@ -36,8 +33,8 @@ export const CharList = () => {
         justifyContent: "space-between",
       }}
     >
-      {chars.map(({ id, ...props }) => (
-        <CharCard key={id} {...props} id={id} />
+      {chars.map((id: any) => (
+        <CharCard key={id} id={id} />
       ))}
     </Box>
   );

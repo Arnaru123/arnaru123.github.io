@@ -8,17 +8,22 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState } from "react";
-import { useDispatch } from "../store";
+import { useDispatch, useSelector } from "../store";
 import {
   addToFavorite,
   removeFromFavorite,
 } from "../store/slices/favoriteChars";
-import { CharInfo } from "../types/charInfo";
+import { makeSelectCharById } from '../store/selectors/allChars'
 
-export const CharCard = ({ id, name, image, gender }: CharInfo) => {
+type OwnProps = {
+  id: string;
+}
+
+export const CharCard = ({ id }: OwnProps) => {
   const dispatch = useDispatch();
+  const { name, image, gender } = useSelector(makeSelectCharById(id)) || {};
   const [isFavorite, setIsFavorite] = useState(false);
-
+  
   const addIdToFavorite = () => {
     setIsFavorite(true);
     dispatch(addToFavorite(id));
