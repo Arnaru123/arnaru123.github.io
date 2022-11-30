@@ -1,6 +1,6 @@
 // import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "../index";
-import { charactersAdapter, charsSelectors } from "../slices/allChars";
+import { charsSelectors } from "../slices/allChars";
 
 export const charsSelector = (({ chars }: RootState) => chars.chars);
 
