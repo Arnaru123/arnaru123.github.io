@@ -42,12 +42,7 @@ export const CharCard = ({ id }: OwnProps) => {
   return (
     <Grid item>
       <Card sx={{ width: 250, height: "100%" }}>
-        <CardMedia
-          component="img"
-          height="194"
-          image={image}
-          alt="Paella dish"
-        />
+        <CardMedia component="img" height="194" image={image} alt={name} />
         <CardContent>
           <Typography variant="h3" color="primary">
             {name}
