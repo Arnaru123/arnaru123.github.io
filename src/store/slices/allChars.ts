@@ -51,7 +51,7 @@ const slice = createSlice({
       })
       .addCase(fetchChars.fulfilled, (state, { payload }) => {
         state.status = LoadingStatus.SUCCESSFUL
-        charactersAdapter.setAll(state.chars, payload)
+        charactersAdapter.addMany(state.chars, payload)
       })
       .addCase(fetchChars.rejected, (state, { error }) => {
         state.status = LoadingStatus.REJECTED
