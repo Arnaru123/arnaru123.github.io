@@ -5,14 +5,12 @@ import {
   useSelector as useReduxSelector
 } from 'react-redux';
 import { charsReducer } from './slices/allChars';
-import { favoriteCharsReducer } from './slices/favoriteChars';
 
 const devTools = process.env.NODE_ENV === 'development';
 
 export const store = configureStore({
   reducer: {
     chars: charsReducer,
-    favoriteChars: favoriteCharsReducer,
   },
   devTools
 });

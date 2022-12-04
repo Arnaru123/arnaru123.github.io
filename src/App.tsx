@@ -9,6 +9,7 @@ import { CharList } from "./view/CharList";
 import { Favorite } from "./view/Favorites";
 import { Start } from "./view/Start";
 import { NavBar } from "./components/NavBar";
+import { CharacterDetails } from "./components/CharacterDetails";
 
 export const App: FC = () => {
   return (
@@ -16,10 +17,11 @@ export const App: FC = () => {
       <CssBaseline />
       <ApolloProvider client={client}>
         <Routes>
-          <Route path="/" element={<NavBar />} >
+          <Route path="/" element={<NavBar />}>
             <Route index element={<Start />} />
             <Route path="favorite" element={<Favorite />} />
             <Route path="charList" element={<CharList />} />
+            <Route path="charList/:id" element={<CharacterDetails />} />
             <Route path="*" element={<div>dfjndfjn</div>} />
           </Route>
         </Routes>

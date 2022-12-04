@@ -1,67 +1,84 @@
-import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import type { EntityState } from "@reduxjs/toolkit";
 import type { RootState } from "../index";
 import { CharsResponse, GET_CHARS } from "../queries/allChars";
 import { query } from "../../queries/apollo";
-import { LoadingStatus } from './../../types/loadingStatus';
-import { CharInfo } from './../../types/charInfo';
+import { LoadingStatus } from "./../../types/loadingStatus";
+import { CharInfo } from "./../../types/charInfo";
 
 interface CharsState {
   chars: EntityState<CharInfo>;
   status: LoadingStatus;
   errors?: string | string[];
+  favoriteCharacterIds: string[];
 }
 
-const sliceName = 'allChars';
+const sliceName = "allChars";
 
 export const charactersAdapter = createEntityAdapter<CharInfo>();
 
-export const charsSelectors = charactersAdapter
-  .getSelectors<RootState>(({ chars }) => chars.chars);
+export const charsSelectors = charactersAdapter.getSelectors<RootState>(
+  ({ chars }) => chars.chars
+);
 
 const initialState: CharsState = {
   chars: charactersAdapter.getInitialState(),
   status: LoadingStatus.IDLE,
-  errors: undefined
-}
+  errors: undefined,
+  favoriteCharacterIds: [],
+};
 
 export const fetchChars = createAsyncThunk(
   `${sliceName}/fetchedChars`,
   async () => {
     const {
       data: {
-        characters: {
-          results
-        }
-      }
-    } = await query<CharsResponse>({ query: GET_CHARS })
+        characters: { results },
+      },
+    } = await query<CharsResponse>({ query: GET_CHARS });
 
-    return results || []
+    return results || [];
   }
-)
+);
 
 const slice = createSlice({
   name: sliceName,
   initialState,
-  reducers: {},
+  reducers: {
+    addToFavorite(state, { payload }: PayloadAction<string>) {
+      state.favoriteCharacterIds.push(payload);
+      // state.favoriteCharacterIds.sort();
+    },
+    removeFromFavorite(state, { payload }: PayloadAction<string>) {
+      state.favoriteCharacterIds = state.favoriteCharacterIds.filter(
+        (id) => id !== payload
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchChars.pending, (state) => {
-        state.status = LoadingStatus.PENDING
+        state.status = LoadingStatus.PENDING;
       })
       .addCase(fetchChars.fulfilled, (state, { payload }) => {
-        state.status = LoadingStatus.SUCCESSFUL
-        charactersAdapter.addMany(state.chars, payload)
+        state.status = LoadingStatus.IDLE;
+        charactersAdapter.addMany(state.chars, payload);
       })
       .addCase(fetchChars.rejected, (state, { error }) => {
-        state.status = LoadingStatus.REJECTED
-        state.errors = error.message
-      })
-  }
-})
+        state.status = LoadingStatus.REJECTED;
+        state.errors = error.message;
+      });
+  },
+});
 
 export const {
-  reducer: charsReducer
+  reducer: charsReducer,
+  actions: { addToFavorite, removeFromFavorite },
 } = slice;
 
 export default slice;

@@ -1,5 +1,5 @@
 import { CircularProgress, Grid, Typography } from "@mui/material";
-import { PageView } from "../view/PageView";
+import { PageView } from "./PageView";
 
 type OwnProps = {
   title: string;

@@ -6,20 +6,19 @@ import { ids, loadingCharsSelector } from "../store/selectors/allChars";
 import { fetchChars } from "../store/slices/allChars";
 import { CharCard } from "../components/CharCard";
 import { Loader } from "../components/Loader";
-import { PageView } from "./PageView";
-import { selectFavoriteCharsByIds } from "../store/selectors/favoriteChars";
+import { PageView } from "../components/PageView";
+import { Link } from "react-router-dom";
 
 export const CharList = () => {
   const chars = useSelector((state) => ids(state));
   const loading = useSelector(loadingCharsSelector);
-  const favIds = useSelector(selectFavoriteCharsByIds)
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (chars.length === 0) {
       dispatch(fetchChars());
     }
-  }, [chars.length]);
+  }, [chars.length, dispatch]);
 
   if (loading === LoadingStatus.PENDING) {
     return <Loader title="Rick and Morty chars" />;
@@ -29,7 +28,9 @@ export const CharList = () => {
     <PageView title="All characters">
       <Grid xs={8} container spacing={2} justifyContent="center">
         {chars.map((id: any) => (
-          <CharCard key={id} id={id} />
+          <Link key={id} to={`/charList/${id}`}>
+            <CharCard id={id} />
+          </Link>
         ))}
       </Grid>
     </PageView>

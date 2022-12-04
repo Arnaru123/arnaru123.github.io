@@ -10,12 +10,11 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "../store";
+import { addToFavorite, removeFromFavorite } from "../store/slices/allChars";
 import {
-  addToFavorite,
-  removeFromFavorite,
-} from "../store/slices/favoriteChars";
-import { makeSelectCharById } from "../store/selectors/allChars";
-import { selectFavoriteCharsByIds } from "../store/selectors/favoriteChars";
+  makeSelectCharById,
+  selectFavoriteCharsByIds,
+} from "../store/selectors/allChars";
 
 type OwnProps = {
   id: string;
@@ -26,30 +25,29 @@ export const CharCard = ({ id }: OwnProps) => {
   const { name, image, gender } = useSelector(makeSelectCharById(id)) || {};
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const ids = useSelector(selectFavoriteCharsByIds)
+  const ids = useSelector(selectFavoriteCharsByIds);
 
   useLayoutEffect(() => {
-    ids.forEach((favId) => {
-      if (favId === id) {
-        setIsFavorite(true)
-      }
-    })
-  }, [ids, id])
+    if (ids.includes(id)) {
+      setIsFavorite(true);
+    }
+  }, [ids, id]);
 
-  const addIdToFavorite = () => {
+  const addIdToFavorite = (event: MouseEvent) => {
+    event?.stopPropagation();
     setIsFavorite(true);
     dispatch(addToFavorite(id));
   };
 
-  const deleteIdFromFavorite = () => {
+  const deleteIdFromFavorite = (event: MouseEvent) => {
+    event?.stopPropagation();
     setIsFavorite(false);
     dispatch(removeFromFavorite(id));
   };
 
   const handleClick = () => {
-    isFavorite ? deleteIdFromFavorite() : addIdToFavorite();
+    // isFavorite ? deleteIdFromFavorite() : addIdToFavorite();
   };
-
   return (
     <Grid item>
       <Card sx={{ width: 250, height: "100%" }}>
