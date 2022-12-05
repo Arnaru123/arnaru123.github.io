@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, Typography } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { PageView } from "./PageView";
 
 type OwnProps = {

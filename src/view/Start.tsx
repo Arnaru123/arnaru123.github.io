@@ -1,4 +1,3 @@
-import { CardMedia } from "@mui/material";
 import { PageView } from "../components/PageView";
 
 export const Start = () => (

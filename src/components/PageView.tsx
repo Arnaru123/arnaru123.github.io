@@ -13,7 +13,7 @@ export const PageView = ({ title, children }: OwnProps) => (
       display="flex"
       flexDirection="column"
       alignItems="center"
-      justifyContent="space-around"
+      justifyContent="center"
       height="100%"
     >
       <Typography

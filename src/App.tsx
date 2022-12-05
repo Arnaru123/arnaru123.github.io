@@ -10,6 +10,7 @@ import { Favorite } from "./view/Favorites";
 import { Start } from "./view/Start";
 import { NavBar } from "./components/NavBar";
 import { CharacterDetails } from "./components/CharacterDetails";
+import { ErrorPage } from "./view/ErrorPage";
 
 export const App: FC = () => {
   return (
@@ -21,8 +22,8 @@ export const App: FC = () => {
             <Route index element={<Start />} />
             <Route path="favorite" element={<Favorite />} />
             <Route path="charList" element={<CharList />} />
-            <Route path="charList/:id" element={<CharacterDetails />} />
-            <Route path="*" element={<div>dfjndfjn</div>} />
+            <Route path="charInfo/:id" element={<CharacterDetails />} />
+            <Route path="*" element={<ErrorPage/>} />
           </Route>
         </Routes>
       </ApolloProvider>

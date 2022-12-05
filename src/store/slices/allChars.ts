@@ -51,13 +51,15 @@ const slice = createSlice({
   initialState,
   reducers: {
     addToFavorite(state, { payload }: PayloadAction<string>) {
-      state.favoriteCharacterIds.push(payload);
-      // state.favoriteCharacterIds.sort();
+      state.favoriteCharacterIds.push(payload)
     },
     removeFromFavorite(state, { payload }: PayloadAction<string>) {
-      state.favoriteCharacterIds = state.favoriteCharacterIds.filter(
-        (id) => id !== payload
+      const indexRemovedId = state.favoriteCharacterIds.findIndex(
+        (id) => id === payload
       );
+      if (indexRemovedId > -1) {
+        state.favoriteCharacterIds.splice(indexRemovedId, 1)
+      }
     },
   },
   extraReducers: (builder) => {

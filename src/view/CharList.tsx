@@ -7,7 +7,6 @@ import { fetchChars } from "../store/slices/allChars";
 import { CharCard } from "../components/CharCard";
 import { Loader } from "../components/Loader";
 import { PageView } from "../components/PageView";
-import { Link } from "react-router-dom";
 
 export const CharList = () => {
   const chars = useSelector((state) => ids(state));
@@ -28,9 +27,8 @@ export const CharList = () => {
     <PageView title="All characters">
       <Grid xs={8} container spacing={2} justifyContent="center">
         {chars.map((id: any) => (
-          <Link key={id} to={`/charList/${id}`}>
-            <CharCard id={id} />
-          </Link>
+            <CharCard key={id} id={id} />
+
         ))}
       </Grid>
     </PageView>
