@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { CharacterInfo } from '../types/characterDetails';
+import { CharacterInfo } from '../types/characterInfo';
 
 export type CharacterDetailsResponse = {
   character: CharacterInfo
@@ -10,7 +10,7 @@ export type CharacterDetailsRequest = {
 }
 
 export const CHARACTER_DETAILS = gql`
-  query charInfo($id: ID!) {
+  query characterById($id: ID!) {
     character(id: $id) {
       id,
       name,

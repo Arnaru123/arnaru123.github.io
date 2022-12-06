@@ -4,13 +4,13 @@ import {
   useDispatch as useReduxDispatch,
   useSelector as useReduxSelector
 } from 'react-redux';
-import { charsReducer } from './slices/allChars';
+import { charactersReducer } from './slices/characters';
 
 const devTools = process.env.NODE_ENV === 'development';
 
 export const store = configureStore({
   reducer: {
-    chars: charsReducer,
+    characters: charactersReducer,
   },
   devTools
 });

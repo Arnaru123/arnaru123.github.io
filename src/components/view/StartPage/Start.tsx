@@ -1,6 +1,6 @@
-import { PageView } from "../components/PageView";
+import { PageView } from "../../common/PageView";
 
-export const Start = () => (
+export const StartPage = () => (
   <PageView title="Start page">
     <img
       width={700}

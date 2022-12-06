@@ -6,41 +6,41 @@ import {
 } from "@reduxjs/toolkit";
 import type { EntityState } from "@reduxjs/toolkit";
 import type { RootState } from "../index";
-import { CharsResponse, GET_CHARS } from "../queries/allChars";
+import { CharactersResponse, GET_CHARACTERS } from "../queries/characters";
 import { query } from "../../queries/apollo";
-import { LoadingStatus } from "./../../types/loadingStatus";
-import { CharInfo } from "./../../types/charInfo";
+import { LoadingStatus } from "../../types/loadingStatus";
+import { CharacterInfo } from "../../types/characterInfo";
 
-interface CharsState {
-  chars: EntityState<CharInfo>;
+interface CharactersState {
+  characters: EntityState<CharacterInfo>;
   status: LoadingStatus;
   errors?: string | string[];
   favoriteCharacterIds: string[];
 }
 
-const sliceName = "allChars";
+const sliceName = "characters";
 
-export const charactersAdapter = createEntityAdapter<CharInfo>();
+export const charactersAdapter = createEntityAdapter<CharacterInfo>();
 
-export const charsSelectors = charactersAdapter.getSelectors<RootState>(
-  ({ chars }) => chars.chars
+export const charactersSelectors = charactersAdapter.getSelectors<RootState>(
+  ({ characters }) => characters.characters
 );
 
-const initialState: CharsState = {
-  chars: charactersAdapter.getInitialState(),
+const initialState: CharactersState = {
+  characters: charactersAdapter.getInitialState(),
   status: LoadingStatus.IDLE,
   errors: undefined,
   favoriteCharacterIds: [],
 };
 
-export const fetchChars = createAsyncThunk(
-  `${sliceName}/fetchedChars`,
+export const fetchCharacters = createAsyncThunk(
+  `${sliceName}/fetchedCharacters`,
   async () => {
     const {
       data: {
         characters: { results },
       },
-    } = await query<CharsResponse>({ query: GET_CHARS });
+    } = await query<CharactersResponse>({ query: GET_CHARACTERS });
 
     return results || [];
   }
@@ -64,14 +64,14 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchChars.pending, (state) => {
+      .addCase(fetchCharacters.pending, (state) => {
         state.status = LoadingStatus.PENDING;
       })
-      .addCase(fetchChars.fulfilled, (state, { payload }) => {
+      .addCase(fetchCharacters.fulfilled, (state, { payload }) => {
         state.status = LoadingStatus.IDLE;
-        charactersAdapter.addMany(state.chars, payload);
+        charactersAdapter.addMany(state.characters, payload);
       })
-      .addCase(fetchChars.rejected, (state, { error }) => {
+      .addCase(fetchCharacters.rejected, (state, { error }) => {
         state.status = LoadingStatus.REJECTED;
         state.errors = error.message;
       });
@@ -79,7 +79,7 @@ const slice = createSlice({
 });
 
 export const {
-  reducer: charsReducer,
+  reducer: charactersReducer,
   actions: { addToFavorite, removeFromFavorite },
 } = slice;
 

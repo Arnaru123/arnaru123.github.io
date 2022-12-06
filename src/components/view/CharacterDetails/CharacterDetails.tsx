@@ -2,49 +2,51 @@ import { useEffect, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { useParams, useNavigate } from "react-router-dom";
-import { query } from "../queries/apollo";
+import { query } from "../../../queries/apollo";
 import {
   CHARACTER_DETAILS,
   CharacterDetailsResponse,
   CharacterDetailsRequest,
-} from "../queries/characterDetails";
-import { CharacterInfo } from "../types/characterDetails";
-import { PageView } from "./PageView";
-import { Loader } from "./Loader";
+} from "./queryes/characterDetails";
+import { CharacterInfo } from "./types/characterInfo";
+import { PageView } from "../../common/PageView";
+import { Loader } from "../../common/Loader";
 
 export const CharacterDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [char, setChar] = useState<CharacterInfo>();
-  const [loading, setLoading] = useState(false)
+  const [character, setCharacter] = useState<CharacterInfo>();
+  const [loading, setLoading] = useState(false);
 
   const goBack = () => navigate(-1);
 
   useEffect(() => {
     const fetchChar = async () => {
       try {
-        setLoading(true)
-      const {
-        data: { character },
-      } = await query<CharacterDetailsResponse, CharacterDetailsRequest>({
-        query: CHARACTER_DETAILS,
-        variables: { id },
-      });
-      setChar(character);
+        setLoading(true);
+        const {
+          data: { character },
+        } = await query<CharacterDetailsResponse, CharacterDetailsRequest>({
+          query: CHARACTER_DETAILS,
+          variables: { id },
+        });
+        setCharacter(character);
       } catch (e) {
-        console.log('Oh, we have an Error:', e)
+        console.log("Oh, we have an Error:", e);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
 
-    if(!char) fetchChar();
-  }, [id, char]);
+    if (!character) fetchChar();
+  }, [id, character]);
 
-  const { name, status, gender, species, image } = char || {};
+  const { name, status, gender, species, image } = character || {};
 
-  if (loading) { return <Loader title="Try to found more info about your waifu"/> }
+  if (loading) {
+    return <Loader title="Try to found more info about your waifu" />;
+  }
 
   return (
     <PageView title={`Details about ${name}`}>

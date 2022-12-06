@@ -11,13 +11,16 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useLayoutEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "../store";
-import { addToFavorite, removeFromFavorite } from "../store/slices/allChars";
+import { useDispatch, useSelector } from "../../store";
 import {
-  makeSelectCharById,
-  selectFavoriteCharsByIds,
-} from "../store/selectors/allChars";
-import { theme } from "../theme";
+  addToFavorite,
+  removeFromFavorite,
+} from "../../store/slices/characters";
+import {
+  makeSelectCharacterById,
+  selectFavoriteCharactersByIds,
+} from "../../store/selectors/characters";
+import { theme } from "../../theme";
 
 type OwnProps = {
   id: string;
@@ -34,12 +37,13 @@ const DetailsLink = styled(Link)(() => ({
   },
 }));
 
-export const CharCard = ({ id }: OwnProps) => {
+export const CharacterCard = ({ id }: OwnProps) => {
   const dispatch = useDispatch();
-  const { name, image, gender } = useSelector(makeSelectCharById(id)) || {};
+  const { name, image, gender } =
+    useSelector(makeSelectCharacterById(id)) || {};
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const ids = useSelector(selectFavoriteCharsByIds);
+  const ids = useSelector(selectFavoriteCharactersByIds);
 
   useLayoutEffect(() => {
     if (ids.includes(id)) {
@@ -69,7 +73,7 @@ export const CharCard = ({ id }: OwnProps) => {
           display="flex"
           flexDirection="column"
           justifyContent="space-between"
-          sx={{ padding: "20px", height:'50%' }}
+          sx={{ padding: "20px", height: "50%" }}
         >
           <Stack>
             <Typography variant="h3" color="primary">
@@ -77,12 +81,8 @@ export const CharCard = ({ id }: OwnProps) => {
             </Typography>
             <Typography color="text.secondary">{gender}</Typography>
           </Stack>
-          <Stack
-            direction="row"
-            spacing={3}
-            justifyContent="space-between"
-          >
-            <DetailsLink to={`/charInfo/${id}`}>Details</DetailsLink>
+          <Stack direction="row" spacing={3} justifyContent="space-between">
+            <DetailsLink to={`/characterInfo/${id}`}>Details</DetailsLink>
             <IconButton aria-label="add to favorites" onClick={handleClick}>
               <FavoriteIcon color={isFavorite ? "error" : "disabled"} />
             </IconButton>
