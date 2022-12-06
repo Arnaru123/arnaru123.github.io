@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import { useParams, useNavigate } from "react-router-dom";
+import { query } from "../queries/apollo";
 import {
   CHARACTER_DETAILS,
   CharacterDetailsResponse,
   CharacterDetailsRequest,
 } from "../queries/characterDetails";
-import { Box, Button, Typography } from "@mui/material";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-import { useParams, useNavigate } from "react-router-dom";
-import { query } from "../queries/apollo";
 import { CharacterInfo } from "../types/characterDetails";
 import { PageView } from "./PageView";
 import { Loader } from "./Loader";
@@ -17,13 +17,14 @@ export const CharacterDetails = () => {
   const navigate = useNavigate();
 
   const [char, setChar] = useState<CharacterInfo>();
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const goBack = () => navigate(-1);
 
   useEffect(() => {
     const fetchChar = async () => {
-      // setLoading()
+      try {
+        setLoading(true)
       const {
         data: { character },
       } = await query<CharacterDetailsResponse, CharacterDetailsRequest>({
@@ -31,10 +32,14 @@ export const CharacterDetails = () => {
         variables: { id },
       });
       setChar(character);
-      setLoading(false)
+      } catch (e) {
+        console.log('Oh, we have an Error:', e)
+      } finally {
+        setLoading(false)
+      }
     };
 
-    fetchChar();
+    if(!char) fetchChar();
   }, [id, char]);
 
   const { name, status, gender, species, image } = char || {};
