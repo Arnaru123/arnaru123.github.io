@@ -9,7 +9,6 @@ import {
   styled,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useLayoutEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "../../store";
 import {
@@ -41,23 +40,15 @@ export const CharacterCard = ({ id }: OwnProps) => {
   const dispatch = useDispatch();
   const { name, image, gender } =
     useSelector(makeSelectCharacterById(id)) || {};
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const ids = useSelector(selectFavoriteCharactersByIds);
-
-  useLayoutEffect(() => {
-    if (ids.includes(id)) {
-      setIsFavorite(true);
-    }
-  }, [ids, id]);
+  const isFavorite = ids.includes(id);
 
   const addIdToFavorite = () => {
-    setIsFavorite(true);
     dispatch(addToFavorite(id));
   };
 
   const deleteIdFromFavorite = () => {
-    setIsFavorite(false);
     dispatch(removeFromFavorite(id));
   };
 

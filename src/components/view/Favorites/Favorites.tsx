@@ -9,13 +9,13 @@ export const Favorite = () => {
 
   return (
     <PageView title="My favorite characters">
-      <Grid container justifyContent="center" spacing={2} xs={8}>
+      {/* <Grid container justifyContent="center" spacing={2} width={1200}> */}
         {ids.length > 0 ? (
           ids.map((id) => <CharacterCard key={id} id={id} />)
         ) : (
           <Typography>Page is Mty</Typography>
         )}
-      </Grid>
+      {/* </Grid> */}
     </PageView>
   );
 };

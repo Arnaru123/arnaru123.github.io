@@ -18,29 +18,52 @@ export const CharacterDetails = () => {
 
   const [character, setCharacter] = useState<CharacterInfo>();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<any>()
 
   const goBack = () => navigate(-1);
 
   useEffect(() => {
-    const fetchChar = async () => {
+    // const fetchChar = async () => {
+    //   try {
+    //     setLoading(true);
+    //     const {
+    //       data: { character },
+    //     } = await query<CharacterDetailsResponse, CharacterDetailsRequest>({
+    //       query: CHARACTER_DETAILS,
+    //       variables: { id },
+    //     });
+    //     setCharacter(character);
+    //   } catch (e) {
+    //     console.log("Oh, we have an Error:", e);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+
+    // if (!character) fetchChar();
+    const fetchRest = async (id: string) => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const {
-          data: { character },
-        } = await query<CharacterDetailsResponse, CharacterDetailsRequest>({
-          query: CHARACTER_DETAILS,
-          variables: { id },
-        });
-        setCharacter(character);
-      } catch (e) {
-        console.log("Oh, we have an Error:", e);
+        const res = await fetch(
+          `https://rickandmortyapi.com/api/character/${id}`
+        );
+        const resJSON = await res.json();
+        if (res.ok) {
+          setCharacter(resJSON);
+        } else {
+          throw new Error(resJSON.error);
+        }
+      } catch (error:any) {
+        const { message } = error;
+        setError(message)
       } finally {
         setLoading(false);
       }
     };
-
-    if (!character) fetchChar();
-  }, [id, character]);
+    if (id) {
+      fetchRest(id);
+    }
+  }, [id]);
 
   const { name, status, gender, species, image } = character || {};
 
@@ -49,22 +72,30 @@ export const CharacterDetails = () => {
   }
 
   return (
-    <PageView title={`Details about ${name}`}>
+    <PageView title={`Details about ${name ?? 'character'}`}>
       <Box
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        width="800px"
+        width="700px"
+        height={700}
       >
-        <Box>
+        <Box display="flex"
+          flexDirection='column'
+        justifyContent="space-between"
+          height={200}
+        >
           <Button onClick={goBack}>
             <ArrowCircleLeftIcon /> Go back
           </Button>
-          <Typography variant="h2">{name}</Typography>
+          <Box>
+            <Typography variant="h2">{name}</Typography>
           <Typography>
-            {gender} | {species}
+            {species} {gender?.toLowerCase()}
           </Typography>
           <Typography>{status}</Typography>
+          </Box>
+          
         </Box>
         <Box>
           <img
@@ -75,6 +106,11 @@ export const CharacterDetails = () => {
           />
         </Box>
       </Box>
+      {error && (
+          <Box width="100%" textAlign='center'>
+            <Typography variant="h2">{ error }</Typography>
+          </Box>
+        )}
     </PageView>
   );
 };

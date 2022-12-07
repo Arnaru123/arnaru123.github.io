@@ -28,11 +28,11 @@ export const CharacterList = () => {
 
   return (
     <PageView title="All characters">
-      <Grid xs={8} container spacing={2} justifyContent="center">
+      {/* <Grid width={1200} className="cc" container spacing={2} justifyContent="center"> */}
         {characters.map((id: any) => (
           <CharacterCard key={id} id={id} />
         ))}
-      </Grid>
+      {/* </Grid> */}
     </PageView>
   );
 };
