@@ -13,3 +13,7 @@ export const makeSelectCharacterById = (id: string) =>
   (state: RootState) => selectCharacterById(state, id);
 
 export const loadingCharactersSelector = (({ characters }: RootState) => characters.status);
+
+export const lastPageSelector = (({ characters }: RootState) => characters.lastPage);
+
+export const currentPageSelector = (({ characters }: RootState) => characters.currentPage);
