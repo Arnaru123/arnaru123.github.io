@@ -20,7 +20,7 @@ interface CharactersState {
   status: LoadingStatus;
   errors?: string | string[];
   favoriteCharacterIds: string[];
-  lastPage?: number;
+  lastPage: number;
   currentPage: number;
 }
 
@@ -38,7 +38,7 @@ const initialState: CharactersState = {
   errors: undefined,
   favoriteCharacterIds: [],
   currentPage: 1,
-  lastPage: undefined,
+  lastPage: 1, //дефолтное значение, пока не придут данные с бэкенда
 };
 
 export const fetchCharacters = createAsyncThunk<any, number>(

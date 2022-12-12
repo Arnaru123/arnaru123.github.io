@@ -1,8 +1,7 @@
-import { FC } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { Grid, Stack } from "@mui/material";
 
-export const NavBar: FC = () => {
+export const NavBar = () => {
   return (
     <>
       <Grid container justifyContent="center">

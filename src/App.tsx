@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { ApolloProvider } from "@apollo/client";
 import { ThemeProvider } from "@mui/system";
 import { Routes, Route } from "react-router-dom";
@@ -12,7 +11,7 @@ import { NavBar } from "./components/NavBar";
 import { CharacterDetails } from "./components/view/CharacterDetails/CharacterDetails";
 import { ErrorPage } from "./components/view/ErrorPage";
 
-export const App: FC = () => {
+export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
