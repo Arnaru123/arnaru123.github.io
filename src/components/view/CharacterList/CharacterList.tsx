@@ -1,4 +1,10 @@
-import { useEffect, useState, useLayoutEffect } from "react";
+import {
+  useEffect,
+  useState,
+  useLayoutEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { Button, Grid, Typography } from "@mui/material";
 import { LoadingStatus } from "../../../types/loadingStatus";
 import { useDispatch, useSelector } from "../../../store";
@@ -21,29 +27,50 @@ export const CharacterList = () => {
   const dispatch = useDispatch();
   const characters = useSelector((state) => ids(state));
   const loading = useSelector(loadingCharactersSelector);
-
-  const firstPage: number = 1;
-  const lastPage = useSelector(lastPageSelector) || 42;
+  const lastPage = useSelector(lastPageSelector) || 2;
   const currentPage = useSelector(currentPageSelector);
-  const pageArray: number[] = [];
+  const pagesArray: number[] = [];
+  const pagesList: (number | string)[] = [];
+  const firstPage: number = 1;
+
   for (let i = 1; i <= lastPage; i++) {
-    pageArray.push(i);
+    pagesArray.push(i);
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(fetchCharacters(currentPage));
   }, [currentPage, dispatch]);
 
-  const slicedPages = pageArray.slice(currentPage - 1, currentPage + 2);
-  const pageList: (number | string)[] = slicedPages.reduce<(number | string)[]>((list, page) => {
-    if (page < 5) {
-      list.push(page)
-    } else {
-      list.push('...')
+  const paginationMaker = (
+    pagesArray: number[],
+    currentPage: number,
+    lastPage: number
+  ): (number | string)[] => {
+    if (pagesArray.length <= 5) {
+      pagesList.push(...pagesArray);
+      return pagesList;
     }
-    return list
+    if (currentPage === 1 || currentPage === 2) {
+      const slicedPages = pagesArray.slice(0, 3);
+      pagesList.push(...slicedPages, "... ", lastPage);
+    } else if (currentPage === 3) {
+      const slicedPages = pagesArray.slice(0, 4);
+      pagesList.push(...slicedPages, "... ", lastPage);
+    } else if (currentPage < pagesArray[pagesArray.length - 4]) {
+      const slicedPages = pagesArray.slice(currentPage - 2, currentPage + 1);
+      pagesList.push(firstPage, " ...", ...slicedPages, "... ", lastPage);
+    } else {
+      const slicedPages = pagesArray.slice(
+        pagesArray[pagesArray.length - 6],
+        lastPage + 1
+      );
+      pagesList.push(firstPage, " ...", ...slicedPages);
+    }
 
-  }, []);
+    return pagesList;
+  };
+
+  paginationMaker(pagesArray, currentPage, lastPage);
 
   const handleClick = (pageNumber: any) => {
     dispatch(setCurrentPage(pageNumber));
@@ -55,14 +82,12 @@ export const CharacterList = () => {
 
   return (
     <PageView title="All characters">
-      {/* <Grid width={1200} className="cc" container spacing={2} justifyContent="center"> */}
-
       <Stack>
-        {pageList.map((page) => (
+        {pagesList.map((page) => (
           <Button
             key={page}
             onClick={() => handleClick(page)}
-            variant="outlined"
+            variant={currentPage === page ? "contained" : "outlined"}
           >
             {page}
           </Button>
@@ -71,7 +96,6 @@ export const CharacterList = () => {
       {characters.map((id: any) => (
         <CharacterCard key={id} id={id} />
       ))}
-      {/* </Grid> */}
     </PageView>
   );
 };
