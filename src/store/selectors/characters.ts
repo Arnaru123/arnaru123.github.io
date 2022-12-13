@@ -1,7 +1,11 @@
 import type { RootState } from "../index";
-import { charactersSelectors } from "../slices/characters";
+import { charactersAdapter } from "../slices/characters";
 
-export const charactersSelector = (({ characters }: RootState) => characters.characters);
+export const charactersSelectors = charactersAdapter.getSelectors<RootState>(
+  ({ characters }) => characters.characters
+);
+
+export const charactersSelector = charactersSelectors.selectEntities;
 
 export const selectCharacterById = charactersSelectors.selectById;
 

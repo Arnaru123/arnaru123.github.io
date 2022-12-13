@@ -5,15 +5,9 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import type { EntityState } from "@reduxjs/toolkit";
-import type { RootState } from "../index";
-import {
-  CharactersResponse,
-  CharactersRequest,
-  GET_CHARACTERS,
-} from "../queries/characters";
-import { query } from "../../queries/apollo";
 import { LoadingStatus } from "../../types/loadingStatus";
 import { CharacterInfo } from "../../types/characterInfo";
+import { useFetchCharacters } from "./../../hooks/useFetchCharacters";
 
 interface CharactersState {
   characters: EntityState<CharacterInfo>;
@@ -28,10 +22,6 @@ const sliceName = "characters";
 
 export const charactersAdapter = createEntityAdapter<CharacterInfo>();
 
-export const charactersSelectors = charactersAdapter.getSelectors<RootState>(
-  ({ characters }) => characters.characters
-);
-
 const initialState: CharactersState = {
   characters: charactersAdapter.getInitialState(),
   status: LoadingStatus.IDLE,
@@ -41,20 +31,8 @@ const initialState: CharactersState = {
   lastPage: 1, //дефолтное значение, пока не придут данные с бэкенда
 };
 
-export const fetchCharacters = createAsyncThunk<any, number>(
-  `${sliceName}/fetchedCharacters`,
-  async (page) => {
-    const {
-      data: {
-        characters: { info: {pages}, results },
-      },
-    } = await query<CharactersResponse, CharactersRequest>({
-      query: GET_CHARACTERS,
-      variables: { page },
-    });
-
-    return { pages, results } || [];
-  }
+export const fetchCharacters = createAsyncThunk(
+  `${sliceName}/fetchedCharacters`, useFetchCharacters
 );
 
 const slice = createSlice({
@@ -72,14 +50,14 @@ const slice = createSlice({
         state.favoriteCharacterIds.splice(indexRemovedId, 1);
       }
     },
-    setCurrentPage(state, {payload}:PayloadAction<number>) {
+    setCurrentPage(state, { payload }: PayloadAction<number>) {
       state.currentPage = payload;
     },
     prevPage(state) {
-      state.currentPage -= 1
+      state.currentPage -= 1;
     },
     nextPage(state) {
-      state.currentPage += 1
+      state.currentPage += 1;
     },
   },
   extraReducers: (builder) => {
@@ -101,7 +79,13 @@ const slice = createSlice({
 
 export const {
   reducer: charactersReducer,
-  actions: { addToFavorite, removeFromFavorite, setCurrentPage, prevPage, nextPage },
+  actions: {
+    addToFavorite,
+    removeFromFavorite,
+    setCurrentPage,
+    prevPage,
+    nextPage,
+  },
 } = slice;
 
 export default slice;

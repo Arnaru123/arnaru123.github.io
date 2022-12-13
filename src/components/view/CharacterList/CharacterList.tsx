@@ -10,7 +10,6 @@ import { fetchCharacters } from "../../../store/slices/characters";
 import { CharacterCard } from "../../common/CharacterCard";
 import { Loader } from "../../common/Loader";
 import { PageView } from "../../common/PageView";
-import { Pagination } from "../../common/Pagination";
 
 export const CharacterList = () => {
   const dispatch = useDispatch();
@@ -23,12 +22,11 @@ export const CharacterList = () => {
   }, [currentPage, dispatch]);
 
   if (loading === LoadingStatus.PENDING) {
-    return <Loader title="Rick and Morty characters" />;
+    return <Loader />;
   }
 
   return (
-    <PageView title="All characters">
-      <Pagination />
+    <PageView>
       {characters.map((id) => (
         <CharacterCard key={id} id={id as string} />
       ))}

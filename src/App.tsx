@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import client from "./queries/apollo";
 import { theme } from "./theme";
-import { CharacterList } from "./components/view/CharacterList/CharacterList";
+import { CharactersPage } from "./components/view/CharacterList/index";
 import { Favorite } from "./components/view/Favorites/Favorites";
 import { StartPage } from "./components/view/StartPage/Start";
 import { NavBar } from "./components/NavBar";
@@ -20,7 +20,7 @@ export const App = () => {
           <Route path="/" element={<NavBar />}>
             <Route index element={<StartPage />} />
             <Route path="favorite" element={<Favorite />} />
-            <Route path="characterList/:page" element={<CharacterList />} />
+            <Route path="characterList/:page" element={<CharactersPage />} />
             <Route path="characterInfo/:id" element={<CharacterDetails />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>

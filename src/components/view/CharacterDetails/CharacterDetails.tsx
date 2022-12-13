@@ -74,7 +74,7 @@ export const CharacterDetails = () => {
   const { name, status, gender, species, image } = character || {};
 
   if (loading) {
-    return <Loader title="Try to found more info about your waifu" />;
+    return <Loader />;
   }
 
   return (

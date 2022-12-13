@@ -2,8 +2,8 @@ import type { ReactNode } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 
 interface OwnProps {
-  title: string;
-  children?: ReactNode;
+  title?: string;
+  children: ReactNode;
 }
 
 export const PageView = ({ title, children }: OwnProps) => (
