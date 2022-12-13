@@ -30,7 +30,7 @@ export const CharacterList = () => {
     <PageView title="All characters">
       <Pagination />
       {characters.map((id) => (
-        <CharacterCard key={id} id={id} />
+        <CharacterCard key={id} id={id as string} />
       ))}
     </PageView>
   );
