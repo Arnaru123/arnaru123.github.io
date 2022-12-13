@@ -1,4 +1,5 @@
 import { Stack, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "../../store";
 import {
   lastPageSelector,
@@ -8,6 +9,7 @@ import { setCurrentPage } from "../../store/slices/characters";
 
 export const Pagination = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const firstPage: number = 1;
   const lastPage = useSelector(lastPageSelector);
   const currentPage = useSelector(currentPageSelector);
@@ -15,33 +17,31 @@ export const Pagination = () => {
     { length: lastPage },
     (_, k) => k + 1
   );
-  const pagesList: number[] = [];
 
-  const paginationMaker = (
-    currentPage: number,
-    lastPage: number
-  ): number[] => {
+  const paginationMaker = (currentPage: number, lastPage: number): number[] => {
+    const paginationArray = [];
     if (currentPage === 1) {
-      pagesList.push(currentPage, currentPage + 1, currentPage + 2);
+      paginationArray.push(currentPage, currentPage + 1, currentPage + 2);
     }
     if (currentPage > 1 && currentPage !== lastPage) {
-      pagesList.push(currentPage - 1, currentPage, currentPage + 1);
+      paginationArray.push(currentPage - 1, currentPage, currentPage + 1);
     }
     if (currentPage === lastPage) {
-      pagesList.push(currentPage - 2, currentPage - 1, lastPage);
+      paginationArray.push(currentPage - 2, currentPage - 1, lastPage);
     }
 
-    return pagesList;
+    return paginationArray;
   };
 
-  paginationMaker(currentPage, lastPage);
+  const pagesList = paginationMaker(currentPage, lastPage);
 
   const handleClick = (pageNumber: number) => {
+    navigate(`/characterList/${pageNumber}`)
     dispatch(setCurrentPage(pageNumber));
   };
 
   return (
-    <Stack position="fixed" top={120} left={40}>
+    <Stack position="fixed" top={120} left={40} spacing={0.5}>
       {currentPage >= 3 && (
         <>
           <Button
@@ -51,7 +51,7 @@ export const Pagination = () => {
           >
             {firstPage}
           </Button>
-          <Typography textAlign='center'>...</Typography>
+          <Typography textAlign="center">...</Typography>
         </>
       )}
       {pagesList.map((page) => (
@@ -65,7 +65,7 @@ export const Pagination = () => {
       ))}
       {currentPage <= pagesArray[pagesArray.length - 3] && (
         <>
-          <Typography textAlign='center'>...</Typography>
+          <Typography textAlign="center">...</Typography>
           <Button
             key={lastPage}
             onClick={() => handleClick(lastPage)}
