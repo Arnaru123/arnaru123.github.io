@@ -1,7 +1,7 @@
-import { Box, Button, Typography } from "@mui/material";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import { Box, Button, Typography } from "@mui/material";
+import { PageView } from "components/common/PageView";
 import { useNavigate } from "react-router-dom";
-import { PageView } from "../common/PageView";
 
 export const ErrorPage = () => {
   const navigate = useNavigate();

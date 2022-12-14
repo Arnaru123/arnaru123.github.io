@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
-import { CharacterInfo } from "../types/characterInfo";
+import { ShortCharacterInfo } from "types/shortCharacterInfo";
 
 export type CharactersByIdsResponse = {
-  charactersByIds: CharacterInfo[];
+  charactersByIds: ShortCharacterInfo[];
 };
 
 export type CharactersByIdsRequest = {

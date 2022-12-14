@@ -1,12 +1,12 @@
 import { gql } from "@apollo/client";
-import { CharacterInfo } from "../types/characterInfo";
+import { ShortCharacterInfo } from "types/shortCharacterInfo";
 
 export type CharactersResponse = {
   characters: {
     info: {
       pages: number;
     };
-    results: CharacterInfo[];
+    results: ShortCharacterInfo[];
   };
 };
 

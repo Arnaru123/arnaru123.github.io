@@ -1,14 +1,15 @@
 import { Box, Typography } from "@mui/material";
-import { CharacterCard } from "../../common/CharacterCard";
-import { useAppSelector } from "../../../store";
-import { selectFavoriteCharactersByIds } from "../../../store/selectors/characters";
-import { useFetchCharactersByIds } from "../../../hooks/useFetchCharactersByIds";
-import { PageView } from "../../common/PageView";
-import { Loader } from "../../common/Loader";
+import { CharacterCard } from "components/common/CharacterCard";
+import { Loader } from "components/common/Loader";
+import { PageView } from "components/common/PageView";
+import { useFetchCharactersByIds } from "hooks/useFetchCharactersByIds";
+import { useAppSelector } from "store";
+import { selectFavoriteCharactersByIds } from "store/selectors/characters";
 
 export const Favorite = () => {
   const ids = useAppSelector(selectFavoriteCharactersByIds);
-  const { loading, favoriteCharacters, error } = useFetchCharactersByIds(ids);
+  const { loading, favoriteCharacters, loadError } =
+    useFetchCharactersByIds(ids);
 
   if (loading) return <Loader />;
 
@@ -19,9 +20,9 @@ export const Favorite = () => {
       ) : (
         <Typography>Page is Mty</Typography>
       )}
-      {error && (
+      {loadError && (
         <Box width="100%" textAlign="center">
-          <Typography variant="h2">{error}</Typography>
+          <Typography variant="h2">{loadError}</Typography>
         </Box>
       )}
     </PageView>

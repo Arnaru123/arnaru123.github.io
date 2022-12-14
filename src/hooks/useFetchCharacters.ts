@@ -1,9 +1,9 @@
+import { query } from "queries/apollo";
 import {
   CharactersResponse,
   CharactersRequest,
   GET_CHARACTERS,
-} from "../queries/characters";
-import { query } from "../queries/apollo";
+} from "queries/characters";
 
 export const useFetchCharacters = async (page: number) => {
   const {

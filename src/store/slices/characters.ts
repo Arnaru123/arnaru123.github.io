@@ -5,29 +5,27 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import type { EntityState } from "@reduxjs/toolkit";
-import { LoadingStatus } from "../../types/loadingStatus";
-import { CharacterInfo } from "../../types/characterInfo";
-import { useFetchCharacters } from "./../../hooks/useFetchCharacters";
+import { useFetchCharacters } from "hooks/useFetchCharacters";
+import { LoadingStatus } from "types/loadingStatus";
+import { ShortCharacterInfo } from "types/shortCharacterInfo";
 
 interface CharactersState {
-  characters: EntityState<CharacterInfo>;
+  characters: EntityState<ShortCharacterInfo>;
   status: LoadingStatus;
   errors?: string | string[];
   favoriteCharacterIds: string[];
   lastPage: number;
-  currentPage: number;
 }
 
 const sliceName = "characters";
 
-export const charactersAdapter = createEntityAdapter<CharacterInfo>();
+export const charactersAdapter = createEntityAdapter<ShortCharacterInfo>();
 
 const initialState: CharactersState = {
   characters: charactersAdapter.getInitialState(),
   status: LoadingStatus.IDLE,
   errors: undefined,
   favoriteCharacterIds: [],
-  currentPage: 1,
   lastPage: 0, //дефолтное значение, пока не придут данные с бэкенда
 };
 
@@ -36,7 +34,7 @@ export const fetchCharacters = createAsyncThunk(
   useFetchCharacters
 );
 
-const slice = createSlice({
+export const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
@@ -50,9 +48,6 @@ const slice = createSlice({
       if (indexRemovedId > -1) {
         state.favoriteCharacterIds.splice(indexRemovedId, 1);
       }
-    },
-    setCurrentPage(state, { payload }: PayloadAction<number>) {
-      state.currentPage = payload;
     },
   },
   extraReducers: (builder) => {
@@ -74,7 +69,5 @@ const slice = createSlice({
 
 export const {
   reducer: charactersReducer,
-  actions: { addToFavorite, removeFromFavorite, setCurrentPage },
+  actions: { addToFavorite, removeFromFavorite },
 } = slice;
-
-export default slice;

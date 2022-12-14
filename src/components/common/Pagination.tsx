@@ -1,29 +1,25 @@
-import { Stack, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { lastPageSelector } from "../../store/selectors/characters";
-import { setCurrentPage } from "../../store/slices/characters";
+import { Stack, Typography } from "@mui/material";
+import { styled } from "@mui/system";
+import { Link, useParams } from "react-router-dom";
+import { useAppSelector } from "store";
+import { lastPageSelector } from "store/selectors/characters";
 
-type OwnProps = {
-  page: number;
-};
+const paginationLink = styled(Link)(() => ({
+  padding: "5px",
+  border: "1px solid black",
+}));
 
-export const Pagination = ({ page: currentPage }: OwnProps) => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const firstPage: number = 1;
+export const Pagination = () => {
+  const { page } = useParams();
+  const currentPage = Number(page);
   const lastPage = useAppSelector(lastPageSelector);
-  const pagesArray: number[] = Array.from(
-    { length: lastPage },
-    (_, k) => k + 1
-  );
 
   const paginationMaker = (currentPage: number, lastPage: number) => {
     const paginationArray = [];
     if (currentPage === 1) {
       paginationArray.push(currentPage, currentPage + 1, currentPage + 2);
     }
-    if (currentPage > 1 && currentPage !== lastPage) {
+    if (currentPage > 1 && currentPage < lastPage) {
       paginationArray.push(currentPage - 1, currentPage, currentPage + 1);
     }
     if (currentPage === lastPage) {
@@ -35,44 +31,27 @@ export const Pagination = ({ page: currentPage }: OwnProps) => {
 
   const pagesList = paginationMaker(currentPage, lastPage);
 
-  const handleClick = (pageNumber: number) => {
-    dispatch(setCurrentPage(pageNumber));
-    navigate(`/characterList/${pageNumber}`);
-  };
-
   return (
     <Stack position="fixed" top={120} left={40} spacing={0.5}>
       {currentPage >= 3 && (
         <>
-          <Button
-            key={firstPage}
-            onClick={() => handleClick(firstPage)}
-            variant={currentPage === firstPage ? "contained" : "outlined"}
-          >
-            {firstPage}
-          </Button>
+          <Link key={1} to={`/characterList/1`}>
+            1
+          </Link>
           <Typography textAlign="center">...</Typography>
         </>
       )}
       {pagesList.map((page) => (
-        <Button
-          key={page}
-          onClick={() => handleClick(page)}
-          variant={currentPage === page ? "contained" : "outlined"}
-        >
+        <Link key={page} to={`/characterList/${page}`}>
           {page}
-        </Button>
+        </Link>
       ))}
-      {currentPage <= pagesArray[pagesArray.length - 3] && (
+      {currentPage <= lastPage - 3 && (
         <>
           <Typography textAlign="center">...</Typography>
-          <Button
-            key={lastPage}
-            onClick={() => handleClick(lastPage)}
-            variant={currentPage === lastPage ? "contained" : "outlined"}
-          >
+          <Link key={lastPage} to={`/characterList/${lastPage}`}>
             {lastPage}
-          </Button>
+          </Link>
         </>
       )}
     </Stack>

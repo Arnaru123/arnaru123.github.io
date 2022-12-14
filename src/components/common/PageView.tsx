@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
 import { Box, Grid, Typography } from "@mui/material";
+import type { ReactNode } from "react";
 
 interface OwnProps {
   title?: string;
@@ -8,14 +8,7 @@ interface OwnProps {
 
 export const PageView = ({ title, children }: OwnProps) => (
   <Box padding="0 0 64px">
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      // justifyContent="center"
-      // height="100%"
-      // width={1200}
-    >
+    <Box display="flex" flexDirection="column" alignItems="center">
       <Typography
         textAlign="center"
         variant="h2"

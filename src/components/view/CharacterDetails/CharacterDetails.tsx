@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import { Box, Button, Typography } from "@mui/material";
+import { Loader } from "components/common/Loader";
+import { PageView } from "components/common/PageView";
+import { query } from "queries/apollo";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { query } from "../../../queries/apollo";
+import { FullCharacterInfo } from "types/fullCharacterInfo";
+
 import {
   CHARACTER_DETAILS,
   CharacterDetailsResponse,
   CharacterDetailsRequest,
-} from "./queryes/characterDetails";
-import { CharacterInfo } from "./types/characterInfo";
-import { PageView } from "../../common/PageView";
-import { Loader } from "../../common/Loader";
+} from "./queries/characterDetails";
 
 type FetchError = { [key: string]: string };
 
@@ -18,7 +19,7 @@ export const CharacterDetails = () => {
   const { id: characterId } = useParams();
   const navigate = useNavigate();
 
-  const [character, setCharacter] = useState<CharacterInfo>();
+  const [characterInfo, setCharacterInfo] = useState<FullCharacterInfo>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -37,7 +38,7 @@ export const CharacterDetails = () => {
         if (!character) {
           throw new Error("Load error");
         }
-        setCharacter(character);
+        setCharacterInfo(character);
       } catch (error) {
         const { message } = error as FetchError;
         setError(message);
@@ -47,10 +48,9 @@ export const CharacterDetails = () => {
     };
 
     if (characterId) fetchChar(characterId);
-
   }, [characterId]);
 
-  const { name, status, gender, species, image } = character || {};
+  const { name, status, gender, species, image } = characterInfo || {};
 
   if (loading) {
     return <Loader />;

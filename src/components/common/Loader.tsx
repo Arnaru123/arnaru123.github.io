@@ -1,9 +1,6 @@
 import { CircularProgress } from "@mui/material";
-import { PageView } from "./PageView";
 
-// type OwnProps = {
-//   title: string;
-// };
+import { PageView } from "./PageView";
 
 export const Loader = () => (
   <PageView>

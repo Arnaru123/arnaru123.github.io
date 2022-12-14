@@ -1,4 +1,4 @@
-import { PageView } from "../../common/PageView";
+import { PageView } from "components/common/PageView";
 
 export const StartPage = () => (
   <PageView title="Start page">

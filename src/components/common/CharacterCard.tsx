@@ -6,20 +6,17 @@ import {
   Grid,
   Box,
   Stack,
-  styled,
 } from "@mui/material";
+import { styled } from "@mui/system";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../store";
-import {
-  addToFavorite,
-  removeFromFavorite,
-} from "../../store/slices/characters";
+import { useAppDispatch, useAppSelector } from "store";
+import { addToFavorite, removeFromFavorite } from "store/slices/characters";
 import {
   makeSelectCharacterById,
   selectFavoriteCharactersByIds,
-} from "../../store/selectors/characters";
-import { theme } from "../../theme";
+} from "store/selectors/characters";
+import { theme } from "theme";
 
 type OwnProps = {
   id: string;

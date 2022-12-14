@@ -1,19 +1,18 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { query } from "queries/apollo";
 import {
   CharactersByIdsResponse,
   CharactersByIdsRequest,
   GET_CHARACTERS_BY_IDS,
-} from "../queries/charactersByIds";
-import { query } from "../queries/apollo";
-import { CharacterInfo } from "../types/characterInfo";
+} from "queries/charactersByIds";
+import { useEffect, useState } from "react";
+import { ShortCharacterInfo } from "types/shortCharacterInfo";
 
-export const useFetchCharactersByIds = (ids: string[]) => {
+export const useFetchCharactersByIds = (idList: string[]) => {
   const [loading, setLoading] = useState(false);
-  const [favoriteCharacters, setFavoriteCharacters] = useState<CharacterInfo[]>(
-    []
-  );
-  const [error, setError] = useState<string>();
+  const [favoriteCharacters, setFavoriteCharacters] = useState<
+    ShortCharacterInfo[]
+  >([]);
+  const [loadError, setLoadError] = useState<string>();
 
   useEffect(() => {
     const fetchFavoriteCharacters = async (ids: string[]) => {
@@ -29,15 +28,15 @@ export const useFetchCharactersByIds = (ids: string[]) => {
       } catch (error) {
         if (error instanceof Error) {
           const { message } = error;
-          setError(message);
+          setLoadError(message);
         }
       } finally {
         setLoading(false);
       }
     };
 
-    fetchFavoriteCharacters(ids);
-  }, [ids]);
+    fetchFavoriteCharacters(idList);
+  }, [idList]);
 
-  return { loading, favoriteCharacters, error };
+  return { loading, favoriteCharacters, loadError };
 };
