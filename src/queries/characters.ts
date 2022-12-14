@@ -1,22 +1,22 @@
-import { gql } from '@apollo/client';
-import { CharacterInfo } from '../types/characterInfo';
+import { gql } from "@apollo/client";
+import { CharacterInfo } from "../types/characterInfo";
 
 export type CharactersResponse = {
   characters: {
     info: {
-      pages: number
-    }
-    results: CharacterInfo[]
-  }
-}
+      pages: number;
+    };
+    results: CharacterInfo[];
+  };
+};
 
 export type CharactersRequest = {
-  page: number
-}
+  page: number;
+};
 
 export const GET_CHARACTERS = gql`
-  query characters ($page: Int) {
-    characters (page: $page) {
+  query characters($page: Int) {
+    characters(page: $page) {
       info {
         pages
       }
@@ -28,4 +28,4 @@ export const GET_CHARACTERS = gql`
       }
     }
   }
-`
+`;

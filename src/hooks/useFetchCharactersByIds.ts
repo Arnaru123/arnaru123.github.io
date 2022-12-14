@@ -13,7 +13,7 @@ export const useFetchCharactersByIds = (ids: string[]) => {
   const [favoriteCharacters, setFavoriteCharacters] = useState<CharacterInfo[]>(
     []
   );
-  const [errors, setErrors] = useState<Error>();
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     const fetchFavoriteCharacters = async (ids: string[]) => {
@@ -28,7 +28,8 @@ export const useFetchCharactersByIds = (ids: string[]) => {
         setFavoriteCharacters(charactersByIds);
       } catch (error) {
         if (error instanceof Error) {
-          setErrors(error);
+          const { message } = error;
+          setError(message);
         }
       } finally {
         setLoading(false);
@@ -38,5 +39,5 @@ export const useFetchCharactersByIds = (ids: string[]) => {
     fetchFavoriteCharacters(ids);
   }, [ids]);
 
-  return { loading, favoriteCharacters, errors };
+  return { loading, favoriteCharacters, error };
 };

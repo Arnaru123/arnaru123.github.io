@@ -1,24 +1,24 @@
 import { Stack, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "../../store";
-import {
-  lastPageSelector,
-  currentPageSelector,
-} from "../../store/selectors/characters";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { lastPageSelector } from "../../store/selectors/characters";
 import { setCurrentPage } from "../../store/slices/characters";
 
-export const Pagination = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate()
+type OwnProps = {
+  page: number;
+};
+
+export const Pagination = ({ page: currentPage }: OwnProps) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const firstPage: number = 1;
-  const lastPage = useSelector(lastPageSelector);
-  const currentPage = useSelector(currentPageSelector);
+  const lastPage = useAppSelector(lastPageSelector);
   const pagesArray: number[] = Array.from(
     { length: lastPage },
     (_, k) => k + 1
   );
 
-  const paginationMaker = (currentPage: number, lastPage: number): number[] => {
+  const paginationMaker = (currentPage: number, lastPage: number) => {
     const paginationArray = [];
     if (currentPage === 1) {
       paginationArray.push(currentPage, currentPage + 1, currentPage + 2);
@@ -36,8 +36,8 @@ export const Pagination = () => {
   const pagesList = paginationMaker(currentPage, lastPage);
 
   const handleClick = (pageNumber: number) => {
-    navigate(`/characterList/${pageNumber}`)
     dispatch(setCurrentPage(pageNumber));
+    navigate(`/characterList/${pageNumber}`);
   };
 
   return (

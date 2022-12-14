@@ -9,16 +9,18 @@ import { CharacterInfo } from "../../types/characterInfo";
 import { useFetchCharactersByIds } from "../../hooks/useFetchCharactersByIds";
 
 interface InitialState {
-  favoriteCharacters: EntityState<CharacterInfo>
+  favoriteCharacters: EntityState<CharacterInfo>;
 }
 
-const sliceName = 'favoriteCharacters';
+const sliceName = "favoriteCharacters";
 
-const favoriteCharactersAdapter = createEntityAdapter<CharacterInfo>()
+const favoriteCharactersAdapter = createEntityAdapter<CharacterInfo>();
 
-const fetchFavoriteCharacters = createAsyncThunk(`fetch/${sliceName}`, useFetchCharactersByIds)
+const fetchFavoriteCharacters = createAsyncThunk(
+  `fetch/${sliceName}`,
+  useFetchCharactersByIds
+);
 
-const initialState:InitialState = {
-  favoriteCharacters: favoriteCharactersAdapter.getInitialState()
-}
-
+const initialState: InitialState = {
+  favoriteCharacters: favoriteCharactersAdapter.getInitialState(),
+};

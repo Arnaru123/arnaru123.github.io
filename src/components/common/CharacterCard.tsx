@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import {
   addToFavorite,
   removeFromFavorite,
@@ -37,11 +37,11 @@ const DetailsLink = styled(Link)(() => ({
 }));
 
 export const CharacterCard = ({ id }: OwnProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { name, image, gender } =
-    useSelector(makeSelectCharacterById(id)) || {};
+    useAppSelector(makeSelectCharacterById(id)) || {};
 
-  const ids = useSelector(selectFavoriteCharactersByIds);
+  const ids = useAppSelector(selectFavoriteCharactersByIds);
   const isFavorite = ids.includes(id);
 
   const addIdToFavorite = () => {

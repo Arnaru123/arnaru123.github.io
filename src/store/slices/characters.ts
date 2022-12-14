@@ -28,11 +28,12 @@ const initialState: CharactersState = {
   errors: undefined,
   favoriteCharacterIds: [],
   currentPage: 1,
-  lastPage: 1, //дефолтное значение, пока не придут данные с бэкенда
+  lastPage: 0, //дефолтное значение, пока не придут данные с бэкенда
 };
 
 export const fetchCharacters = createAsyncThunk(
-  `${sliceName}/fetchedCharacters`, useFetchCharacters
+  `${sliceName}/fetchedCharacters`,
+  useFetchCharacters
 );
 
 const slice = createSlice({
@@ -52,12 +53,6 @@ const slice = createSlice({
     },
     setCurrentPage(state, { payload }: PayloadAction<number>) {
       state.currentPage = payload;
-    },
-    prevPage(state) {
-      state.currentPage -= 1;
-    },
-    nextPage(state) {
-      state.currentPage += 1;
     },
   },
   extraReducers: (builder) => {
@@ -79,13 +74,7 @@ const slice = createSlice({
 
 export const {
   reducer: charactersReducer,
-  actions: {
-    addToFavorite,
-    removeFromFavorite,
-    setCurrentPage,
-    prevPage,
-    nextPage,
-  },
+  actions: { addToFavorite, removeFromFavorite, setCurrentPage },
 } = slice;
 
 export default slice;

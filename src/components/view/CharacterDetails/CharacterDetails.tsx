@@ -15,7 +15,7 @@ import { Loader } from "../../common/Loader";
 type FetchError = { [key: string]: string };
 
 export const CharacterDetails = () => {
-  const { id:characterId } = useParams();
+  const { id: characterId } = useParams();
   const navigate = useNavigate();
 
   const [character, setCharacter] = useState<CharacterInfo>();
@@ -25,7 +25,7 @@ export const CharacterDetails = () => {
   const goBack = () => navigate(-1);
 
   useEffect(() => {
-    const fetchChar = async (id:string) => {
+    const fetchChar = async (id: string) => {
       try {
         setLoading(true);
         const {
@@ -35,11 +35,11 @@ export const CharacterDetails = () => {
           variables: { id },
         });
         if (!character) {
-          throw new Error('Load error')
+          throw new Error("Load error");
         }
-        setCharacter(character)
-      } catch (e) {
-        const { message } = e as FetchError;
+        setCharacter(character);
+      } catch (error) {
+        const { message } = error as FetchError;
         setError(message);
       } finally {
         setLoading(false);
@@ -47,28 +47,7 @@ export const CharacterDetails = () => {
     };
 
     if (characterId) fetchChar(characterId);
-    // const fetchRest = async (id: string) => {
-    //   setLoading(true);
-    //   try {
-    //     const res = await fetch(
-    //       `https://rickandmortyapi.com/api/character/${id}`
-    //     );
-    //     const resJSON = await res.json();
-    //     if (res.ok) {
-    //       setCharacter(resJSON);
-    //     } else {
-    //       throw new Error(resJSON.error);
-    //     }
-    //   } catch (error) {
-    //     const { message } = error as FetchError;
-    //     setError(message);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    // if (id) {
-    //   fetchRest(id);
-    // }
+
   }, [characterId]);
 
   const { name, status, gender, species, image } = character || {};

@@ -1,25 +1,27 @@
 import { useEffect } from "react";
 import { LoadingStatus } from "../../../types/loadingStatus";
-import { useDispatch, useSelector } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   ids,
   loadingCharactersSelector,
-  currentPageSelector,
 } from "../../../store/selectors/characters";
 import { fetchCharacters } from "../../../store/slices/characters";
 import { CharacterCard } from "../../common/CharacterCard";
 import { Loader } from "../../common/Loader";
 import { PageView } from "../../common/PageView";
 
-export const CharacterList = () => {
-  const dispatch = useDispatch();
-  const characters = useSelector((state) => ids(state));
-  const loading = useSelector(loadingCharactersSelector);
-  const currentPage = useSelector(currentPageSelector);
+type OwnProps = {
+  page: number;
+};
+
+export const CharacterList = ({ page }: OwnProps) => {
+  const dispatch = useAppDispatch();
+  const characters = useAppSelector((state) => ids(state));
+  const loading = useAppSelector(loadingCharactersSelector);
 
   useEffect(() => {
-    dispatch(fetchCharacters(currentPage));
-  }, [currentPage, dispatch]);
+    dispatch(fetchCharacters(page));
+  }, [page, dispatch]);
 
   if (loading === LoadingStatus.PENDING) {
     return <Loader />;
