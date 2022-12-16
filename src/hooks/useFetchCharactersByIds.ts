@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
 import { query } from "queries/apollo";
-import {
+import type {
   CharactersByIdsResponse,
   CharactersByIdsRequest,
-  GET_CHARACTERS_BY_IDS,
 } from "queries/charactersByIds";
-import { useEffect, useState } from "react";
-import { ShortCharacterInfo } from "types/shortCharacterInfo";
+import { GET_CHARACTERS_BY_IDS } from "queries/charactersByIds";
+import type { ShortCharacterInfo } from "types/shortCharacterInfo";
 
 export const useFetchCharactersByIds = (idList: string[]) => {
   const [loading, setLoading] = useState(false);

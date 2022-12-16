@@ -1,15 +1,14 @@
 import { ApolloProvider } from "@apollo/client";
+import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import { Routes, Route } from "react-router-dom";
-import { CssBaseline } from "@mui/material";
+import { CharacterDetails } from "components/view/CharacterDetails";
+import { Characters } from "components/view/Characters";
+import { ErrorPage } from "components/common/ErrorPage";
+import { Favorite } from "components/view/Favorites";
+import { StartPage } from "components/view/StartPage";
 import { client } from "queries/apollo";
 import { theme } from "theme";
-import { CharacterList } from "components/view/CharacterList/CharacterList";
-import { Favorite } from "components/view/Favorites/Favorites";
-import { StartPage } from "components/view/StartPage/Start";
-import { NavBar } from "components/NavBar";
-import { CharacterDetails } from "components/view/CharacterDetails/CharacterDetails";
-import { ErrorPage } from "components/view/ErrorPage";
 
 export const App = () => {
   return (
@@ -17,12 +16,12 @@ export const App = () => {
       <CssBaseline />
       <ApolloProvider client={client}>
         <Routes>
-          <Route path="/" element={<NavBar />}>
-            <Route index element={<StartPage />} />
+          <Route>
+            <Route path="/" element={<StartPage />} />
             <Route path="favorite" element={<Favorite />} />
-            <Route path="characterList/:page" element={<CharacterList />} />
+            <Route path="characterList/:page" element={<Characters />} />
             <Route path="characterInfo/:id" element={<CharacterDetails />} />
-            <Route path="*" element={<ErrorPage />} />
+            <Route path="*" element={<ErrorPage message="Page not found" />} />
           </Route>
         </Routes>
       </ApolloProvider>

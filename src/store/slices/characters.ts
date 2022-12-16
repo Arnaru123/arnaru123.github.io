@@ -2,17 +2,18 @@ import {
   createAsyncThunk,
   createEntityAdapter,
   createSlice,
-  PayloadAction,
+  type PayloadAction,
 } from "@reduxjs/toolkit";
 import type { EntityState } from "@reduxjs/toolkit";
 import { useFetchCharacters } from "hooks/useFetchCharacters";
 import { LoadingStatus } from "types/loadingStatus";
-import { ShortCharacterInfo } from "types/shortCharacterInfo";
+import type { ShortCharacterInfo } from "types/shortCharacterInfo";
+import { CharactersRequest } from "queries/characters";
 
 interface CharactersState {
   characters: EntityState<ShortCharacterInfo>;
   status: LoadingStatus;
-  errors?: string | string[];
+  error?: string;
   favoriteCharacterIds: string[];
   lastPage: number;
 }
@@ -24,12 +25,12 @@ export const charactersAdapter = createEntityAdapter<ShortCharacterInfo>();
 const initialState: CharactersState = {
   characters: charactersAdapter.getInitialState(),
   status: LoadingStatus.IDLE,
-  errors: undefined,
+  error: undefined,
   favoriteCharacterIds: [],
   lastPage: 0, //дефолтное значение, пока не придут данные с бэкенда
 };
 
-export const fetchCharacters = createAsyncThunk(
+export const fetchCharacters = createAsyncThunk<any, CharactersRequest>(
   `${sliceName}/fetchedCharacters`,
   useFetchCharacters
 );
@@ -62,7 +63,7 @@ export const slice = createSlice({
       })
       .addCase(fetchCharacters.rejected, (state, { error }) => {
         state.status = LoadingStatus.REJECTED;
-        state.errors = error.message;
+        state.error = error.message;
       });
   },
 });

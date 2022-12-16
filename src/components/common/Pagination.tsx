@@ -1,29 +1,23 @@
 import { Stack, Typography } from "@mui/material";
-import { styled } from "@mui/system";
-import { Link, useParams } from "react-router-dom";
-import { useAppSelector } from "store";
-import { lastPageSelector } from "store/selectors/characters";
+import { OwnLink } from "./OwnLink";
 
-const paginationLink = styled(Link)(() => ({
-  padding: "5px",
-  border: "1px solid black",
-}));
+type OwnProps = {
+  currentPage: number;
+  lastPage: number;
+  url: string;
+};
 
-export const Pagination = () => {
-  const { page } = useParams();
-  const currentPage = Number(page);
-  const lastPage = useAppSelector(lastPageSelector);
-
-  const paginationMaker = (currentPage: number, lastPage: number) => {
+export const Pagination = ({ currentPage, lastPage, url }: OwnProps) => {
+  const paginationMaker = (startPage: number, endPage: number) => {
     const paginationArray = [];
-    if (currentPage === 1) {
-      paginationArray.push(currentPage, currentPage + 1, currentPage + 2);
+    if (startPage === 1) {
+      paginationArray.push(startPage, startPage + 1, startPage + 2);
     }
-    if (currentPage > 1 && currentPage < lastPage) {
-      paginationArray.push(currentPage - 1, currentPage, currentPage + 1);
+    if (startPage > 1 && startPage < endPage) {
+      paginationArray.push(startPage - 1, startPage, startPage + 1);
     }
-    if (currentPage === lastPage) {
-      paginationArray.push(currentPage - 2, currentPage - 1, lastPage);
+    if (startPage === endPage) {
+      paginationArray.push(startPage - 2, startPage - 1, endPage);
     }
 
     return paginationArray;
@@ -35,23 +29,27 @@ export const Pagination = () => {
     <Stack position="fixed" top={120} left={40} spacing={0.5}>
       {currentPage >= 3 && (
         <>
-          <Link key={1} to={`/characterList/1`}>
+          <OwnLink key={1} to={`/${url}/1`}>
             1
-          </Link>
+          </OwnLink>
           <Typography textAlign="center">...</Typography>
         </>
       )}
       {pagesList.map((page) => (
-        <Link key={page} to={`/characterList/${page}`}>
+        <OwnLink
+          key={page}
+          to={`/${url}/${page}`}
+          className={currentPage === page ? "active" : ""}
+        >
           {page}
-        </Link>
+        </OwnLink>
       ))}
       {currentPage <= lastPage - 3 && (
         <>
           <Typography textAlign="center">...</Typography>
-          <Link key={lastPage} to={`/characterList/${lastPage}`}>
+          <OwnLink key={lastPage} to={`/${url}/${lastPage}`}>
             {lastPage}
-          </Link>
+          </OwnLink>
         </>
       )}
     </Stack>

@@ -15,7 +15,7 @@ import { CHARACTER_DETAILS } from "queries/characterDetails";
 
 type FetchError = { [key: string]: string };
 
-const CharacterDeta = () => {
+export const CharacterDetails = () => {
   const { id: characterId } = useParams();
 
   const [characterInfo, setCharacterInfo] = useState<FullCharacterInfo>();

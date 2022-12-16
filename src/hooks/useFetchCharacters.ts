@@ -1,11 +1,14 @@
 import { query } from "queries/apollo";
-import {
-  CharactersResponse,
-  CharactersRequest,
-  GET_CHARACTERS,
-} from "queries/characters";
+import type { CharactersResponse, CharactersRequest } from "queries/characters";
+import { GET_CHARACTERS } from "queries/characters";
+import type { FilterParams } from "types/filterParams";
 
-export const useFetchCharacters = async (page: number) => {
+type OwnProps = {
+  page: number;
+  filter: FilterParams;
+};
+
+export const useFetchCharacters = async ({ page, filter }: OwnProps) => {
   const {
     data: {
       characters: {
@@ -15,8 +18,8 @@ export const useFetchCharacters = async (page: number) => {
     },
   } = await query<CharactersResponse, CharactersRequest>({
     query: GET_CHARACTERS,
-    variables: { page },
+    variables: { page, filter },
   });
 
-  return { pages, results } || [];
+  return { pages, results };
 };

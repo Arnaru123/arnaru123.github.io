@@ -5,8 +5,8 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import type { EntityState } from "@reduxjs/toolkit";
-import { ShortCharacterInfo } from "types/shortCharacterInfo";
 import { useFetchCharactersByIds } from "hooks/useFetchCharactersByIds";
+import type { ShortCharacterInfo } from "types/shortCharacterInfo";
 
 interface InitialState {
   favoriteCharacters: EntityState<ShortCharacterInfo>;

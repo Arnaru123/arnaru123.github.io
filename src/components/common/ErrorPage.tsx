@@ -1,11 +1,14 @@
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { Box, Button, Typography } from "@mui/material";
 import { PageView } from "components/common/PageView";
-import { useNavigate } from "react-router-dom";
+import { useGoBack } from "hooks/useGoBack";
 
-export const ErrorPage = () => {
-  const navigate = useNavigate();
-  const goBack = () => navigate(-1);
+type OwnProps = {
+  message: string;
+};
+
+export const ErrorPage = ({ message }: OwnProps) => {
+  const goBack = useGoBack();
 
   return (
     <PageView title="Ooops...we have an error">
@@ -19,7 +22,7 @@ export const ErrorPage = () => {
           <Button onClick={goBack}>
             <ArrowCircleLeftIcon /> Go back
           </Button>
-          <Typography>Page not found</Typography>
+          <Typography variant="h5">{message}</Typography>
         </Box>
       </Box>
     </PageView>

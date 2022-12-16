@@ -1,9 +1,14 @@
-import { CircularProgress } from "@mui/material";
-
-import { PageView } from "./PageView";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 export const Loader = () => (
-  <PageView>
+  <Box
+    height="50vh"
+    display="flex"
+    flexDirection="column"
+    justifyContent="center"
+    alignItems="center"
+  >
     <CircularProgress color="success" />
-  </PageView>
+    <Typography mt={3}>Loading...</Typography>
+  </Box>
 );

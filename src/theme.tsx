@@ -6,8 +6,9 @@ declare module "@mui/material/styles/createPalette" {
   }
 }
 
-const primary = "#253858";
-const secondary = "#EEEEEE";
+const primary = "#001d3d";
+const secondary = "#edf2f4";
+const light = "#457b9d";
 const textPrimary = primary;
 const textSecondary = "rgba(66, 82, 110, 0.86)";
 const textLight = "#F4F5F7";
@@ -16,6 +17,7 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: primary,
+      light: light,
     },
     secondary: {
       main: secondary,

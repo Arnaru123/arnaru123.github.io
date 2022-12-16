@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
-import { ShortCharacterInfo } from "types/shortCharacterInfo";
+import type { ShortCharacterInfo } from "types/shortCharacterInfo";
+import type { FilterParams } from "types/filterParams";
 
 export type CharactersResponse = {
   characters: {
@@ -12,11 +13,12 @@ export type CharactersResponse = {
 
 export type CharactersRequest = {
   page: number;
+  filter: FilterParams;
 };
 
 export const GET_CHARACTERS = gql`
-  query characters($page: Int) {
-    characters(page: $page) {
+  query characters($page: Int, $filter: FilterCharacter) {
+    characters(page: $page, filter: $filter) {
       info {
         pages
       }

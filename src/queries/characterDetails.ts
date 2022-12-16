@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { FullCharacterInfo } from "types/fullCharacterInfo";
+import type { FullCharacterInfo } from "types/fullCharacterInfo";
 
 export type CharacterDetailsResponse = {
   character: FullCharacterInfo;

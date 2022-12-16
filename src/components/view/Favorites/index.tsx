@@ -6,7 +6,7 @@ import { useFetchCharactersByIds } from "hooks/useFetchCharactersByIds";
 import { useAppSelector } from "store";
 import { selectFavoriteCharactersByIds } from "store/selectors/characters";
 
-const Fav = () => {
+export const Favorite = () => {
   const ids = useAppSelector(selectFavoriteCharactersByIds);
   const { loading, favoriteCharacters, loadError } =
     useFetchCharactersByIds(ids);
