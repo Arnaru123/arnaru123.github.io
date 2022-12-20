@@ -2,6 +2,7 @@ import { CharacterCard } from "components/common/CharacterCard";
 import { Loader } from "components/common/Loader";
 import { Grid } from "@mui/material";
 import { EntityId } from "@reduxjs/toolkit";
+import { EmptyMessage } from "./EmptyMessage";
 
 type OwnProps = {
   characters: EntityId[];
@@ -22,7 +23,8 @@ export const CharacterList = ({
       justifyContent="center"
       spacing={3}
     >
-      {(characters.length === 0 && !hasError) || isLoading ? (
+      {!isLoading && characters.length === 0 && <EmptyMessage />}
+      {characters.length === 0 && !hasError && isLoading ? (
         <Loader />
       ) : (
         characters.map((id) => <CharacterCard key={id} id={id as string} />)

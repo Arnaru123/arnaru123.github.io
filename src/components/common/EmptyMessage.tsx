@@ -1,5 +1,7 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export const EmptyMessage = () => (
-  <Typography variant="h5">the list is empty...</Typography>
+  <Box display="flex" justifyContent="center" alignItems="center">
+    <Typography variant="h5">the list is empty...</Typography>
+  </Box>
 );
