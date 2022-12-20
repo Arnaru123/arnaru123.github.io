@@ -1,4 +1,4 @@
-import { styled } from "@mui/system";
+import { darken, styled } from "@mui/system";
 import { Link } from "react-router-dom";
 import { theme } from "theme";
 
@@ -8,12 +8,14 @@ export const OwnLink = styled(Link)(() => ({
   borderRadius: "5px",
   textAlign: "center",
   textDecoration: "none",
+  color: theme.palette.text.primary,
+  "&:hover": {
+    backgroundColor: darken(theme.palette.primary.main, 0.8),
+    borderColor: theme.palette.primary.main,
+    color: theme.palette.text.lighter,
+  },
   "&.active": {
     color: theme.palette.text.lighter,
     backgroundColor: theme.palette.primary.main,
-  },
-  "&:hover": {
-    backgroundColor: theme.palette.primary.light,
-    color: "white",
   },
 }));
