@@ -7,9 +7,9 @@ import {
   Grid,
   Box,
   Stack,
-  Skeleton,
+  Button,
+  Link,
 } from "@mui/material";
-import { OwnLink } from "./OwnLink";
 import { useAppDispatch, useAppSelector } from "store";
 import {
   makeSelectCharacterById,
@@ -57,7 +57,13 @@ export const CharacterCard = ({ id }: OwnProps) => {
             <Typography color="text.secondary">{gender}</Typography>
           </Stack>
           <Stack direction="row" spacing={3} justifyContent="space-between">
-            <OwnLink to={`/characterInfo/${id}`}>Details</OwnLink>
+            <Button
+              component={Link}
+              href={`/characterInfo/${id}`}
+              variant="outlined"
+            >
+              Details
+            </Button>
             <IconButton aria-label="add to favorites" onClick={handleClick}>
               <FavoriteIcon color={isFavorite ? "error" : "disabled"} />
             </IconButton>

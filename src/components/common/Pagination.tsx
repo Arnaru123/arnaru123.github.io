@@ -1,5 +1,4 @@
-import { Stack, Typography } from "@mui/material";
-import { OwnLink } from "./OwnLink";
+import { Button, Link, Stack, Typography } from "@mui/material";
 
 type OwnProps = {
   currentPage: number;
@@ -29,27 +28,38 @@ export const Pagination = ({ currentPage, lastPage, url }: OwnProps) => {
     <Stack position="fixed" top={120} left={40} spacing={0.5}>
       {currentPage >= 3 && (
         <>
-          <OwnLink key={1} to={`/${url}/1`}>
+          <Button
+            key={1}
+            component={Link}
+            href={`/${url}/1`}
+            variant="outlined"
+          >
             1
-          </OwnLink>
+          </Button>
           <Typography textAlign="center">...</Typography>
         </>
       )}
       {pagesList.map((page) => (
-        <OwnLink
+        <Button
           key={page}
-          to={`/${url}/${page}`}
-          className={currentPage === page ? "active" : ""}
+          component={Link}
+          href={`/${url}/${page}`}
+          variant={currentPage === page ? "contained" : "outlined"}
         >
           {page}
-        </OwnLink>
+        </Button>
       ))}
       {currentPage <= lastPage - 3 && (
         <>
           <Typography textAlign="center">...</Typography>
-          <OwnLink key={lastPage} to={`/${url}/${lastPage}`}>
+          <Button
+            key={lastPage}
+            component={Link}
+            href={`/${url}/${lastPage}`}
+            variant="outlined"
+          >
             {lastPage}
-          </OwnLink>
+          </Button>
         </>
       )}
     </Stack>
