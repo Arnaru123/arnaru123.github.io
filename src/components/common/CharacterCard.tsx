@@ -8,7 +8,6 @@ import {
   Box,
   Stack,
   Button,
-  Link,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "store";
 import {
@@ -16,6 +15,7 @@ import {
   selectFavoriteCharactersByIds,
 } from "store/selectors/characters";
 import { addToFavorite, removeFromFavorite } from "store/slices/characters";
+import { Link } from "react-router-dom";
 
 type OwnProps = {
   id: string;
@@ -59,7 +59,7 @@ export const CharacterCard = ({ id }: OwnProps) => {
           <Stack direction="row" spacing={3} justifyContent="space-between">
             <Button
               component={Link}
-              href={`/characterInfo/${id}`}
+              to={`/characterInfo/${id}`}
               variant="outlined"
             >
               Details

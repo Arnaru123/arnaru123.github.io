@@ -1,5 +1,4 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
-import { styled } from "@mui/system";
+import { Box, Container, Grid, Typography, styled } from "@mui/material";
 import { NavBar } from "components/NavBar";
 import type { ReactNode } from "react";
 import { theme } from "theme";

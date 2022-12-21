@@ -43,7 +43,7 @@ export const Characters = () => {
         <Pagination
           currentPage={currentPage}
           lastPage={lastPage}
-          url="characterList"
+          isLoading={isLoading}
         />
       )}
       <Filters />

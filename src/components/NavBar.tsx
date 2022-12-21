@@ -1,5 +1,18 @@
-import { Stack } from "@mui/material";
-import { OwnLink } from "./common/OwnLink";
+import { Stack, styled } from "@mui/material";
+
+import { Link } from "react-router-dom";
+import { theme } from "theme";
+
+const OwnLink = styled(Link)(() => ({
+  fontSize: "15pt",
+  textAlign: "center",
+  textDecoration: "none",
+  color: theme.palette.text.primary,
+  "&:hover": {
+    textDecoration: "underline",
+  },
+}));
+
 export const NavBar = () => {
   return (
     <Stack direction="row" spacing={2} my={3}>
