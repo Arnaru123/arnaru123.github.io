@@ -15,6 +15,13 @@ import { ErrorMessage } from "components/common/ErrorMessage";
 import { CharacterList } from "components/common/CharacterList";
 import { Filters } from "components/common/Filters";
 import { useSearchParams } from "react-router-dom";
+import { styled } from "@mui/material";
+
+const FixedPagination = styled(Pagination)(() => ({
+  position: "fixed",
+  top: 120,
+  left: 40,
+}));
 
 export const Characters = () => {
   const dispatch = useAppDispatch();
@@ -40,11 +47,10 @@ export const Characters = () => {
   return (
     <PageView title="All characters">
       {!!lastPage && (
-        <Pagination
+        <FixedPagination
           currentPage={currentPage}
           lastPage={lastPage}
           isLoading={isLoading}
-          className="fixed"
         />
       )}
       <Filters />
