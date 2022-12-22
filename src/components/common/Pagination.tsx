@@ -1,5 +1,5 @@
 import { Stack, Typography, Button } from "@mui/material";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 type OwnProps = {
   currentPage: number;
@@ -8,13 +8,6 @@ type OwnProps = {
 };
 
 export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
-  const [searchParams] = useSearchParams();
-  const gender = searchParams.get("gender");
-  const name = searchParams.get("name");
-  const nameParam = name ? `&name=${name}` : "";
-  const genderParam = gender ? `&gender=${gender}` : "";
-  const filterParams = `${nameParam}${genderParam}`;
-
   const paginationMaker = (
     startPage: number,
     endPage: number,
@@ -29,7 +22,7 @@ export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
         <Button
           key={page}
           component={Link}
-          to={`?page=${page}${filterParams}`}
+          to={`?page=${page}`}
           disabled={disable}
           variant={startPage === page ? "contained" : "outlined"}
         >
@@ -43,7 +36,7 @@ export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
           <Button
             key={1}
             component={Link}
-            to={`?page=1${filterParams}`}
+            to={`?page=1`}
             disabled={disable}
             variant="outlined"
           >
@@ -54,7 +47,7 @@ export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
             <Button
               key={page}
               component={Link}
-              to={`?page=${page}${filterParams}`}
+              to={`?page=${page}`}
               disabled={disable}
               variant={startPage === page ? "contained" : "outlined"}
             >
@@ -65,7 +58,7 @@ export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
           <Button
             key={endPage}
             component={Link}
-            to={`?page=${endPage}${filterParams}`}
+            to={`?page=${endPage}`}
             disabled={disable}
             variant="outlined"
           >
@@ -81,7 +74,7 @@ export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
             <Button
               key={page}
               component={Link}
-              to={`?page=${page}${filterParams}`}
+              to={`?page=${page}`}
               disabled={disable}
               variant={startPage === page ? "contained" : "outlined"}
             >
@@ -92,7 +85,7 @@ export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
           <Button
             key={endPage}
             component={Link}
-            to={`?page=${endPage}${filterParams}`}
+            to={`?page=${endPage}`}
             disabled={disable}
             variant="outlined"
           >
@@ -107,7 +100,7 @@ export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
         <Button
           key={1}
           component={Link}
-          to={`?page=1${filterParams}`}
+          to={`?page=1`}
           disabled={disable}
           variant="outlined"
         >
@@ -118,7 +111,7 @@ export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
           <Button
             key={page}
             component={Link}
-            to={`?page=${page}${filterParams}`}
+            to={`?page=${page}`}
             disabled={disable}
             variant={startPage === page ? "contained" : "outlined"}
           >
