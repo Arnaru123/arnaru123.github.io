@@ -1,5 +1,5 @@
-import { Stack } from "@mui/material";
-import { paginationMaker } from "utils/paginationMaker";
+import { Stack, Typography, Button } from "@mui/material";
+import { Link, useSearchParams } from "react-router-dom";
 
 type OwnProps = {
   currentPage: number;
@@ -8,12 +8,128 @@ type OwnProps = {
 };
 
 export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
-  const paginationArgs = {
-    currentPage: currentPage,
-    lastPage: lastPage,
-    isLoading: isLoading,
+  const [searchParams] = useSearchParams();
+  const gender = searchParams.get("gender");
+  const name = searchParams.get("name");
+  const nameParam = name ? `&name=${name}` : "";
+  const genderParam = gender ? `&gender=${gender}` : "";
+  const filterParams = `${nameParam}${genderParam}`;
+
+  const paginationMaker = (
+    startPage: number,
+    endPage: number,
+    disable: boolean
+  ) => {
+    const paginationArray = [];
+
+    if (endPage < 8) {
+      paginationArray.push(...Array.from({ length: endPage }, (_, k) => k + 1));
+
+      return paginationArray.map((page) => (
+        <Button
+          key={page}
+          component={Link}
+          to={`?page=${page}${filterParams}`}
+          disabled={disable}
+          variant={startPage === page ? "contained" : "outlined"}
+        >
+          {page}
+        </Button>
+      ));
+    } else if (endPage >= 8 && startPage >= 4 && startPage < endPage - 2) {
+      paginationArray.push(startPage - 1, startPage, startPage + 1);
+      return (
+        <>
+          <Button
+            key={1}
+            component={Link}
+            to={`?page=1${filterParams}`}
+            disabled={disable}
+            variant="outlined"
+          >
+            1
+          </Button>
+          <Typography textAlign="center">...</Typography>
+          {paginationArray.map((page) => (
+            <Button
+              key={page}
+              component={Link}
+              to={`?page=${page}${filterParams}`}
+              disabled={disable}
+              variant={startPage === page ? "contained" : "outlined"}
+            >
+              {page}
+            </Button>
+          ))}
+          <Typography textAlign="center">...</Typography>
+          <Button
+            key={endPage}
+            component={Link}
+            to={`?page=${endPage}${filterParams}`}
+            disabled={disable}
+            variant="outlined"
+          >
+            {endPage}
+          </Button>
+        </>
+      );
+    } else if (endPage >= 8 && startPage < 4) {
+      paginationArray.push(1, 2, 3, 4);
+      return (
+        <>
+          {paginationArray.map((page) => (
+            <Button
+              key={page}
+              component={Link}
+              to={`?page=${page}${filterParams}`}
+              disabled={disable}
+              variant={startPage === page ? "contained" : "outlined"}
+            >
+              {page}
+            </Button>
+          ))}
+          <Typography textAlign="center">...</Typography>
+          <Button
+            key={endPage}
+            component={Link}
+            to={`?page=${endPage}${filterParams}`}
+            disabled={disable}
+            variant="outlined"
+          >
+            {endPage}
+          </Button>
+        </>
+      );
+    }
+    paginationArray.push(endPage - 3, endPage - 2, endPage - 1, endPage);
+    return (
+      <>
+        <Button
+          key={1}
+          component={Link}
+          to={`?page=1${filterParams}`}
+          disabled={disable}
+          variant="outlined"
+        >
+          1
+        </Button>
+        <Typography textAlign="center">...</Typography>
+        {paginationArray.map((page) => (
+          <Button
+            key={page}
+            component={Link}
+            to={`?page=${page}${filterParams}`}
+            disabled={disable}
+            variant={startPage === page ? "contained" : "outlined"}
+          >
+            {page}
+          </Button>
+        ))}
+      </>
+    );
   };
-  const pagesList = paginationMaker(paginationArgs);
+
+  const pagesList = paginationMaker(currentPage, lastPage, isLoading);
 
   return (
     <Stack position="fixed" top={120} left={40} spacing={0.5}>

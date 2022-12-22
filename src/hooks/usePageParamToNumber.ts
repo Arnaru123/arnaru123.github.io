@@ -1,7 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export const usePageParamToNumber = () => {
-  const { page } = useParams();
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page");
   const currentPage = Number(page);
   return currentPage;
 };

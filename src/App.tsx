@@ -19,7 +19,7 @@ export const App = () => {
           <Route>
             <Route path="/" element={<StartPage />} />
             <Route path="favorite" element={<Favorite />} />
-            <Route path="characterList/:page" element={<Characters />} />
+            <Route path="characterList" element={<Characters />} />
             <Route path="characterInfo/:id" element={<CharacterDetails />} />
             <Route path="*" element={<ErrorPage message="Page not found" />} />
           </Route>
