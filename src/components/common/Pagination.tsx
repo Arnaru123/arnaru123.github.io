@@ -1,13 +1,31 @@
-import { Stack, Typography, Button } from "@mui/material";
+import { Stack, Typography, Button, styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
 type OwnProps = {
   currentPage: number;
   lastPage: number;
   isLoading: boolean;
+  className: string;
 };
 
-export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
+const PaginationWrapper = styled(Stack)(() => ({
+  "&.fixed": {
+    position: "fixed",
+    top: 120,
+    left: 40,
+  },
+  "&.centered": {
+    margin: "0 auto",
+    flexDirection: "row",
+  },
+}));
+
+export const Pagination = ({
+  currentPage,
+  lastPage,
+  isLoading,
+  className,
+}: OwnProps) => {
   const paginationMaker = (
     startPage: number,
     endPage: number,
@@ -125,8 +143,6 @@ export const Pagination = ({ currentPage, lastPage, isLoading }: OwnProps) => {
   const pagesList = paginationMaker(currentPage, lastPage, isLoading);
 
   return (
-    <Stack position="fixed" top={120} left={40} spacing={0.5}>
-      {pagesList}
-    </Stack>
+    <PaginationWrapper className={className}>{pagesList}</PaginationWrapper>
   );
 };

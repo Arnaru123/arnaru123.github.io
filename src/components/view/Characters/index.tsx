@@ -11,7 +11,7 @@ import {
 } from "store/selectors/characters";
 import { fetchCharacters } from "store/slices/characters";
 import { LoadingStatus } from "types/loadingStatus";
-import { ErrorPage } from "components/common/ErrorPage";
+import { ErrorMessage } from "components/common/ErrorMessage";
 import { CharacterList } from "components/common/CharacterList";
 import { Filters } from "components/common/Filters";
 import { useSearchParams } from "react-router-dom";
@@ -44,6 +44,7 @@ export const Characters = () => {
           currentPage={currentPage}
           lastPage={lastPage}
           isLoading={isLoading}
+          className="fixed"
         />
       )}
       <Filters />
@@ -52,7 +53,7 @@ export const Characters = () => {
         hasError={!!error}
         isLoading={isLoading}
       />
-      {error && <ErrorPage message={error} />}
+      {error && <ErrorMessage message={error} />}
     </PageView>
   );
 };

@@ -6,7 +6,7 @@ type OwnProps = {
   message: string;
 };
 
-export const ErrorPage = ({ message }: OwnProps) => {
+export const ErrorMessage = ({ message }: OwnProps) => {
   const goBack = useGoBack();
 
   return (
