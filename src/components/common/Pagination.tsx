@@ -1,5 +1,5 @@
 import { Stack, Typography, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 type OwnProps = {
   currentPage: number;
@@ -14,8 +14,8 @@ export const Pagination = ({
   isLoading,
   className,
 }: OwnProps) => {
-  const paginationMaker = (
-    startPage: number,
+  const makePagination = (
+    activePage: number,
     endPage: number,
     disable: boolean
   ) => {
@@ -30,13 +30,13 @@ export const Pagination = ({
           component={Link}
           to={`?page=${page}`}
           disabled={disable}
-          variant={startPage === page ? "contained" : "outlined"}
+          variant={activePage === page ? "contained" : "outlined"}
         >
           {page}
         </Button>
       ));
-    } else if (endPage >= 8 && startPage >= 4 && startPage < endPage - 2) {
-      paginationArray.push(startPage - 1, startPage, startPage + 1);
+    } else if (endPage >= 8 && activePage >= 4 && activePage < endPage - 2) {
+      paginationArray.push(activePage - 1, activePage, activePage + 1);
       return (
         <>
           <Button
@@ -55,7 +55,7 @@ export const Pagination = ({
               component={Link}
               to={`?page=${page}`}
               disabled={disable}
-              variant={startPage === page ? "contained" : "outlined"}
+              variant={activePage === page ? "contained" : "outlined"}
             >
               {page}
             </Button>
@@ -72,7 +72,7 @@ export const Pagination = ({
           </Button>
         </>
       );
-    } else if (endPage >= 8 && startPage < 4) {
+    } else if (endPage >= 8 && activePage < 4) {
       paginationArray.push(1, 2, 3, 4);
       return (
         <>
@@ -82,7 +82,7 @@ export const Pagination = ({
               component={Link}
               to={`?page=${page}`}
               disabled={disable}
-              variant={startPage === page ? "contained" : "outlined"}
+              variant={activePage === page ? "contained" : "outlined"}
             >
               {page}
             </Button>
@@ -119,7 +119,7 @@ export const Pagination = ({
             component={Link}
             to={`?page=${page}`}
             disabled={disable}
-            variant={startPage === page ? "contained" : "outlined"}
+            variant={activePage === page ? "contained" : "outlined"}
           >
             {page}
           </Button>
@@ -128,7 +128,7 @@ export const Pagination = ({
     );
   };
 
-  const pagesList = paginationMaker(currentPage, lastPage, isLoading);
+  const pagesList = makePagination(currentPage, lastPage, isLoading);
 
   return (
     <Stack className={className} spacing={0.5}>

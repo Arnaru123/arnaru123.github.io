@@ -5,7 +5,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import type { EntityState } from "@reduxjs/toolkit";
-import { useFetchCharactersByIds } from "hooks/useFetchCharactersByIds";
+import { getCharactersByIds } from "utilits/getCharactersByIds";
 import type { ShortCharacterInfo } from "types/shortCharacterInfo";
 
 interface InitialState {
@@ -18,7 +18,7 @@ const favoriteCharactersAdapter = createEntityAdapter<ShortCharacterInfo>();
 
 const fetchFavoriteCharacters = createAsyncThunk(
   `fetch/${sliceName}`,
-  useFetchCharactersByIds
+  getCharactersByIds
 );
 
 const initialState: InitialState = {

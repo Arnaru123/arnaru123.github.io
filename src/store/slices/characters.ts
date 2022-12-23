@@ -5,7 +5,7 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import type { EntityState } from "@reduxjs/toolkit";
-import { useFetchCharacters } from "hooks/useFetchCharacters";
+import { getCharacters } from "utilits/getCharacters";
 import { LoadingStatus } from "types/loadingStatus";
 import type { ShortCharacterInfo } from "types/shortCharacterInfo";
 import { CharactersRequest } from "queries/characters";
@@ -32,7 +32,7 @@ const initialState: CharactersState = {
 
 export const fetchCharacters = createAsyncThunk<any, CharactersRequest>(
   `${sliceName}/fetchedCharacters`,
-  useFetchCharacters
+  getCharacters
 );
 
 export const slice = createSlice({

@@ -8,7 +8,7 @@ type OwnProps = {
   filter: FilterParams;
 };
 
-export const useFetchCharacters = async ({ page, filter }: OwnProps) => {
+export const getCharacters = async ({ page, filter }: OwnProps) => {
   const {
     data: {
       characters: {

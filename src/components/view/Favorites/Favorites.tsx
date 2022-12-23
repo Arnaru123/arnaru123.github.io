@@ -2,14 +2,13 @@ import { Box, Typography } from "@mui/material";
 import { CharacterCard } from "components/common/CharacterCard";
 import { Loader } from "components/common/Loader";
 import { PageView } from "components/common/PageView";
-import { useFetchCharactersByIds } from "hooks/useFetchCharactersByIds";
+import { getCharactersByIds } from "utilits/getCharactersByIds";
 import { useAppSelector } from "store";
 import { selectFavoriteCharactersByIds } from "store/selectors/characters";
 
 const Fav = () => {
   const ids = useAppSelector(selectFavoriteCharactersByIds);
-  const { loading, favoriteCharacters, loadError } =
-    useFetchCharactersByIds(ids);
+  const { loading, favoriteCharacters, loadError } = getCharactersByIds(ids);
 
   // if (loading) return <Loader />;
 

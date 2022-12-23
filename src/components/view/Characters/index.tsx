@@ -14,7 +14,7 @@ import { LoadingStatus } from "types/loadingStatus";
 import { ErrorMessage } from "components/common/ErrorMessage";
 import { CharacterList } from "components/common/CharacterList";
 import { Filters } from "components/common/Filters";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { styled } from "@mui/material";
 
 const FixedPagination = styled(Pagination)(() => ({
@@ -32,24 +32,25 @@ export const Characters = () => {
   const lastPage = useAppSelector(lastPageSelector);
   const error = useAppSelector(loadingErrorSelector);
   const [searchParams] = useSearchParams();
-  const genderParam = searchParams.get("gender") || "";
-  const nameParam = searchParams.get("name") || "";
+
+  const gender = searchParams.get("gender") || "";
+  const name = searchParams.get("name") || "";
 
   useEffect(() => {
     dispatch(
       fetchCharacters({
         page: currentPage,
-        filter: { name: nameParam, gender: genderParam },
+        filter: { name: name, gender: gender },
       })
     );
-  }, [currentPage, nameParam, genderParam, dispatch]);
+  }, [currentPage, name, gender, dispatch]);
 
   return (
     <PageView title="All characters">
       {!!lastPage && (
         <FixedPagination
           currentPage={currentPage}
-          lastPage={lastPage}
+          lastPage={7}
           isLoading={isLoading}
         />
       )}
