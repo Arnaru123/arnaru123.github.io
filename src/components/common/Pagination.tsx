@@ -1,6 +1,7 @@
 import { Stack, Typography, Button } from "@mui/material";
 import { useParamsToObj } from "hooks/useQueryParamsToObj";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { queryParamsToString } from "utilits/queryParamsToString";
 
 type OwnProps = {
   currentPage?: number;
@@ -16,18 +17,11 @@ export const Pagination = ({
   className,
 }: OwnProps) => {
   const queryParams = useParamsToObj();
-  const { search } = useLocation();
-  const handleSearchParams = () => {
-    delete queryParams.page;
-    const queryString = Object.entries(queryParams).reduce((acc, crr) => {
-      const [key, value] = crr;
-      acc += `&${key}=${value}`;
-      return acc;
-    }, "");
-    return queryString;
-  };
+  const url = (page: number) => {
+    queryParams.page = String(page);
 
-  const searchQuery = handleSearchParams();
+    return queryParamsToString(queryParams);
+  };
 
   const makePagination = (
     activePage: number,
@@ -43,7 +37,7 @@ export const Pagination = ({
         <Button
           key={page}
           component={Link}
-          to={currentPage ? `?page=${page}${searchQuery}` : search}
+          to={url(page)}
           disabled={disable}
           variant={activePage === page ? "contained" : "outlined"}
         >
@@ -57,7 +51,7 @@ export const Pagination = ({
           <Button
             key={1}
             component={Link}
-            to={`?page=1${searchQuery}`}
+            to={url(1)}
             disabled={disable}
             variant="outlined"
           >
@@ -68,7 +62,7 @@ export const Pagination = ({
             <Button
               key={page}
               component={Link}
-              to={currentPage ? `?page=${page}${searchQuery}` : search}
+              to={url(page)}
               disabled={disable}
               variant={activePage === page ? "contained" : "outlined"}
             >
@@ -79,7 +73,7 @@ export const Pagination = ({
           <Button
             key={endPage}
             component={Link}
-            to={`?page=${endPage}${searchQuery}`}
+            to={url(endPage)}
             disabled={disable}
             variant="outlined"
           >
@@ -95,7 +89,7 @@ export const Pagination = ({
             <Button
               key={page}
               component={Link}
-              to={currentPage ? `?page=${page}${searchQuery}` : search}
+              to={url(page)}
               disabled={disable}
               variant={activePage === page ? "contained" : "outlined"}
             >
@@ -106,7 +100,7 @@ export const Pagination = ({
           <Button
             key={endPage}
             component={Link}
-            to={`?page=${endPage}${searchQuery}`}
+            to={url(endPage)}
             disabled={disable}
             variant="outlined"
           >
@@ -121,7 +115,7 @@ export const Pagination = ({
         <Button
           key={1}
           component={Link}
-          to={`?page=1${searchQuery}`}
+          to={url(1)}
           disabled={disable}
           variant="outlined"
         >
@@ -132,7 +126,7 @@ export const Pagination = ({
           <Button
             key={page}
             component={Link}
-            to={currentPage ? `?page=${page}${searchQuery}` : search}
+            to={url(page)}
             disabled={disable}
             variant={activePage === page ? "contained" : "outlined"}
           >
