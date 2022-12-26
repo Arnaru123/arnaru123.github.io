@@ -7,7 +7,7 @@ import type {
 import { GET_CHARACTERS_BY_IDS } from "queries/charactersByIds";
 import type { ShortCharacterInfo } from "types/shortCharacterInfo";
 
-export const getCharactersByIds = (idList: string[]) => {
+export const useGetCharactersByIds = (idList: string[]) => {
   const [loading, setLoading] = useState(false);
   const [favoriteCharacters, setFavoriteCharacters] = useState<
     ShortCharacterInfo[]

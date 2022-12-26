@@ -35,6 +35,9 @@ export const Characters = () => {
 
   const gender = searchParams.get("gender") || "";
   const name = searchParams.get("name") || "";
+  const genderQuery = gender ? `&gender=${gender}` : "";
+  const nameQuery = name ? `&name=${name}` : "";
+  const searchQuery = `${nameQuery}${genderQuery}`;
 
   useEffect(() => {
     dispatch(
@@ -50,8 +53,9 @@ export const Characters = () => {
       {!!lastPage && (
         <FixedPagination
           currentPage={currentPage}
-          lastPage={7}
+          lastPage={lastPage}
           isLoading={isLoading}
+          searchQuery={searchQuery}
         />
       )}
       <Filters />
