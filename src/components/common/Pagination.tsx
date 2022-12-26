@@ -1,12 +1,12 @@
 import { Stack, Typography, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useParamsToObj } from "hooks/useQueryParamsToObj";
+import { Link, useLocation } from "react-router-dom";
 
 type OwnProps = {
-  currentPage: number;
+  currentPage?: number;
   lastPage: number;
   isLoading: boolean;
   className?: any;
-  searchQuery?: string;
 };
 
 export const Pagination = ({
@@ -14,8 +14,21 @@ export const Pagination = ({
   lastPage,
   isLoading,
   className,
-  searchQuery,
 }: OwnProps) => {
+  const queryParams = useParamsToObj();
+  const { search } = useLocation();
+  const handleSearchParams = () => {
+    delete queryParams.page;
+    const queryString = Object.entries(queryParams).reduce((acc, crr) => {
+      const [key, value] = crr;
+      acc += `&${key}=${value}`;
+      return acc;
+    }, "");
+    return queryString;
+  };
+
+  const searchQuery = handleSearchParams();
+
   const makePagination = (
     activePage: number,
     endPage: number,
@@ -30,7 +43,7 @@ export const Pagination = ({
         <Button
           key={page}
           component={Link}
-          to={`?page=${page}${searchQuery}`}
+          to={currentPage ? `?page=${page}${searchQuery}` : search}
           disabled={disable}
           variant={activePage === page ? "contained" : "outlined"}
         >
@@ -55,7 +68,7 @@ export const Pagination = ({
             <Button
               key={page}
               component={Link}
-              to={`?page=${page}${searchQuery}`}
+              to={currentPage ? `?page=${page}${searchQuery}` : search}
               disabled={disable}
               variant={activePage === page ? "contained" : "outlined"}
             >
@@ -82,7 +95,7 @@ export const Pagination = ({
             <Button
               key={page}
               component={Link}
-              to={`?page=${page}${searchQuery}`}
+              to={currentPage ? `?page=${page}${searchQuery}` : search}
               disabled={disable}
               variant={activePage === page ? "contained" : "outlined"}
             >
@@ -119,7 +132,7 @@ export const Pagination = ({
           <Button
             key={page}
             component={Link}
-            to={`?page=${page}${searchQuery}`}
+            to={currentPage ? `?page=${page}${searchQuery}` : search}
             disabled={disable}
             variant={activePage === page ? "contained" : "outlined"}
           >
@@ -130,7 +143,11 @@ export const Pagination = ({
     );
   };
 
-  const pagesList = makePagination(currentPage, lastPage, isLoading);
+  const pagesList = makePagination(
+    currentPage ?? +queryParams.page,
+    lastPage,
+    isLoading
+  );
 
   return (
     <Stack className={className} spacing={0.5}>

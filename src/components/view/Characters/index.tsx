@@ -14,7 +14,7 @@ import { LoadingStatus } from "types/loadingStatus";
 import { ErrorMessage } from "components/common/ErrorMessage";
 import { CharacterList } from "components/common/CharacterList";
 import { Filters } from "components/common/Filters";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { styled } from "@mui/material";
 
 const FixedPagination = styled(Pagination)(() => ({
@@ -35,9 +35,6 @@ export const Characters = () => {
 
   const gender = searchParams.get("gender") || "";
   const name = searchParams.get("name") || "";
-  const genderQuery = gender ? `&gender=${gender}` : "";
-  const nameQuery = name ? `&name=${name}` : "";
-  const searchQuery = `${nameQuery}${genderQuery}`;
 
   useEffect(() => {
     dispatch(
@@ -55,7 +52,6 @@ export const Characters = () => {
           currentPage={currentPage}
           lastPage={lastPage}
           isLoading={isLoading}
-          searchQuery={searchQuery}
         />
       )}
       <Filters />
