@@ -18,11 +18,11 @@ const Wrapper = styled(Box)({
 export const PageView = ({ title, children }: OwnProps) => (
   <Wrapper>
     <Container maxWidth="lg">
-      <Grid container display="flex" flexDirection="column" alignItems="center">
+      <Grid container display="flex" flexDirection="column">
         <Grid item alignSelf="flex-end">
           <NavBar />
         </Grid>
-        <Grid item>
+        <Grid item alignSelf="center">
           <Typography variant="h2" color="textPrimary" margin={5}>
             {title}
           </Typography>
