@@ -39,7 +39,7 @@ export const Filters = () => {
     const gender = target.gender.value;
 
     if (name) {
-      searchParamsObj.name = name;
+      searchParamsObj.name = name.trim();
     }
     if (gender) {
       searchParamsObj.gender = gender;
