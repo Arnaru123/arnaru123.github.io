@@ -3,12 +3,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import type { TypedUseSelectorHook } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
 import { charactersReducer } from "./slices/characters";
+import { favoritesReducer } from "./slices/favorites";
 
 const devTools = process.env.NODE_ENV === "development";
 
 export const store = configureStore({
   reducer: {
     characters: charactersReducer,
+    favorites: favoritesReducer,
   },
   devTools,
 });

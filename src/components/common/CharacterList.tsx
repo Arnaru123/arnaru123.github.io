@@ -8,12 +8,14 @@ type OwnProps = {
   characters: EntityId[];
   hasError: boolean;
   isLoading: boolean;
+  favorites?: boolean;
 };
 
 export const CharacterList = ({
   characters,
   hasError,
   isLoading,
+  favorites,
 }: OwnProps) => {
   return (
     <Grid
@@ -27,7 +29,9 @@ export const CharacterList = ({
       {characters.length === 0 && !hasError && isLoading ? (
         <Loader />
       ) : (
-        characters.map((id) => <CharacterCard key={id} id={id as string} />)
+        characters.map((id) => (
+          <CharacterCard key={id} id={id as string} favorites={favorites} />
+        ))
       )}
     </Grid>
   );

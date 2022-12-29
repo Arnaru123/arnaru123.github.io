@@ -16,15 +16,19 @@ import {
 } from "store/selectors/characters";
 import { addToFavorite, removeFromFavorite } from "store/slices/characters";
 import { Link } from "react-router-dom";
+import { favoriteCharacterById } from "store/selectors/favorites";
 
 type OwnProps = {
   id: string;
+  favorites?: boolean;
 };
 
-export const CharacterCard = ({ id }: OwnProps) => {
+export const CharacterCard = ({ id, favorites }: OwnProps) => {
   const dispatch = useAppDispatch();
   const { name, image, gender } =
-    useAppSelector(makeSelectCharacterById(id)) || {};
+    useAppSelector(
+      favorites ? favoriteCharacterById(id) : makeSelectCharacterById(id)
+    ) || {};
 
   const ids = useAppSelector(selectFavoriteCharactersByIds);
   const isFavorite = ids.includes(id);

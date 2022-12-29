@@ -1,30 +1,44 @@
-import { Box, Typography } from "@mui/material";
-import { CharacterCard } from "components/common/CharacterCard";
-import { Loader } from "components/common/Loader";
 import { PageView } from "components/common/PageView";
-import { useGetCharactersByIds } from "utilits/getCharactersByIds";
-import { useAppSelector } from "store";
+import { useAppDispatch, useAppSelector } from "store";
 import { selectFavoriteCharactersByIds } from "store/selectors/characters";
 import { EmptyMessage } from "components/common/EmptyMessage";
+import { useEffect } from "react";
+import { fetchFavorites } from "store/slices/favorites";
+import { CharacterList } from "components/common/CharacterList";
+import {
+  favoritesErrorSelector,
+  favoritesIds,
+  loadingFavoritesSelector,
+} from "store/selectors/favorites";
+import { ErrorMessage } from "components/common/ErrorMessage";
+import { LoadingStatus } from "types/loadingStatus";
 
-export const Favorite = () => {
+export const Favorites = () => {
   const ids = useAppSelector(selectFavoriteCharactersByIds);
-  const { loading, favoriteCharacters, loadError } = useGetCharactersByIds(ids);
+  const dispatch = useAppDispatch();
+  const characters = useAppSelector((state) => favoritesIds(state));
+  const error = useAppSelector(favoritesErrorSelector);
+  const loading = useAppSelector(loadingFavoritesSelector);
+  const isLoading = loading === LoadingStatus.PENDING;
 
-  // if (loading) return <Loader />;
+  useEffect(() => {
+    dispatch(fetchFavorites(ids));
+  }, [dispatch, ids]);
 
   return (
     <PageView title="My favorite characters">
       {ids.length > 0 ? (
-        favoriteCharacters.map(({ id }) => <CharacterCard key={id} id={id} />)
+        <CharacterList
+          characters={characters}
+          favorites
+          hasError={!!error}
+          isLoading={isLoading}
+        />
       ) : (
         <EmptyMessage />
       )}
-      {loadError && (
-        <Box width="100%" textAlign="center">
-          <Typography variant="h2">{loadError}</Typography>
-        </Box>
-      )}
+
+      {error && <ErrorMessage message={error} />}
     </PageView>
   );
 };
