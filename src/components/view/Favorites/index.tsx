@@ -5,6 +5,7 @@ import { PageView } from "components/common/PageView";
 import { useGetCharactersByIds } from "utilits/getCharactersByIds";
 import { useAppSelector } from "store";
 import { selectFavoriteCharactersByIds } from "store/selectors/characters";
+import { EmptyMessage } from "components/common/EmptyMessage";
 
 export const Favorite = () => {
   const ids = useAppSelector(selectFavoriteCharactersByIds);
@@ -17,7 +18,7 @@ export const Favorite = () => {
       {ids.length > 0 ? (
         favoriteCharacters.map(({ id }) => <CharacterCard key={id} id={id} />)
       ) : (
-        <Typography>Page is Mty</Typography>
+        <EmptyMessage />
       )}
       {loadError && (
         <Box width="100%" textAlign="center">
