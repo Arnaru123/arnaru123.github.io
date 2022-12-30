@@ -22,7 +22,7 @@ export const CharacterList = ({
       container
       width="100%"
       display="flex"
-      justifyContent="center"
+      justifyContent="flex-start"
       spacing={3}
     >
       {!isLoading && characters.length === 0 && <EmptyMessage />}

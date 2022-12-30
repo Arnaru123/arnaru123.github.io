@@ -5,9 +5,10 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { SyntheticEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import type { FilterParams } from "types/filterParams";
 
@@ -53,14 +54,20 @@ export const Filters = () => {
     setFilter({ name: "", gender: "" });
   };
 
-  const setNameFilter = (value: string) => {
+  const setNameFilter = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
     setFilter((filter) => ({
       ...filter,
       name: value,
     }));
   };
 
-  const setGenderFilter = (value: string) => {
+  const setGenderFilter = (event: SelectChangeEvent) => {
+    const {
+      target: { value },
+    } = event;
     setFilter((filter) => ({
       ...filter,
       gender: value,
@@ -83,24 +90,23 @@ export const Filters = () => {
           placeholder="Search by name..."
           name="name"
           value={filter.name}
-          onChange={({ target: { value } }) => setNameFilter(value)}
+          onChange={setNameFilter}
         />
-        <Box width="150px">
-          <FormControl fullWidth>
-            <InputLabel>Gender</InputLabel>
-            <Select
-              value={filter.gender}
-              label="gender"
-              name="gender"
-              onChange={({ target: { value } }) => setGenderFilter(value)}
-            >
-              <MenuItem disabled value="">
-                Gender
-              </MenuItem>
-              {genderOptions}
-            </Select>
-          </FormControl>
-        </Box>
+        <FormControl>
+          <InputLabel>Gender</InputLabel>
+          <Select
+            sx={{ width: "150px" }}
+            value={filter.gender}
+            label="gender"
+            name="gender"
+            onChange={setGenderFilter}
+          >
+            <MenuItem disabled value="">
+              Gender
+            </MenuItem>
+            {genderOptions}
+          </Select>
+        </FormControl>
         <Button type="submit" variant="contained">
           Search
         </Button>
