@@ -7,6 +7,7 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  useMediaQuery,
 } from "@mui/material";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -19,7 +20,8 @@ const genderOptions = genders.map((gender) => (
   </MenuItem>
 ));
 
-export const Filters = () => {
+export const Filters = ({ className }: any) => {
+  const mediaQuery = useMediaQuery("(max-width:650px)");
   const [searchParams, setSearchParams] = useSearchParams();
   const queryName = searchParams.get("name");
   const queryGender = searchParams.get("gender");
@@ -75,45 +77,55 @@ export const Filters = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSearch}
-      onReset={handleReset}
-      style={{ marginBottom: "50px" }}
-    >
-      <Box
-        width="600px"
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <TextField
-          placeholder="Search by name..."
-          name="name"
-          value={filter.name}
-          onChange={setNameFilter}
-        />
-        <FormControl>
-          <InputLabel>Gender</InputLabel>
-          <Select
-            sx={{ width: "150px" }}
-            value={filter.gender}
-            label="gender"
-            name="gender"
-            onChange={setGenderFilter}
+    <Box className={className}>
+      <form onSubmit={handleSearch} onReset={handleReset}>
+        <Box
+          width={mediaQuery ? "100%" : "600px"}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          flexWrap="wrap"
+          marginBottom="50px"
+        >
+          <TextField
+            style={{
+              flexBasis: mediaQuery ? "100%" : "auto",
+              marginBottom: "5px",
+            }}
+            placeholder="Search by name..."
+            name="name"
+            value={filter.name}
+            onChange={setNameFilter}
+          />
+          <Box
+            style={{
+              flexBasis: mediaQuery ? "100%" : "25%",
+              marginBottom: "5px",
+            }}
           >
-            <MenuItem disabled value="">
-              Gender
-            </MenuItem>
-            {genderOptions}
-          </Select>
-        </FormControl>
-        <Button type="submit" variant="contained">
-          Search
-        </Button>
-        <Button type="reset" variant="contained">
-          Reset
-        </Button>
-      </Box>
-    </form>
+            <FormControl fullWidth>
+              <InputLabel>Gender</InputLabel>
+              <Select
+                value={filter.gender}
+                label="gender"
+                name="gender"
+                onChange={setGenderFilter}
+              >
+                <MenuItem disabled value="">
+                  Gender
+                </MenuItem>
+                {genderOptions}
+              </Select>
+            </FormControl>
+          </Box>
+          <Button type="submit" variant="contained">
+            Search
+          </Button>
+          <Button type="reset" variant="contained">
+            Reset
+          </Button>
+        </Box>
+      </form>
+    </Box>
   );
 };

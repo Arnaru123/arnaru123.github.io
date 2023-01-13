@@ -17,10 +17,14 @@ import { Filters } from "components/common/Filters";
 import { useSearchParams } from "react-router-dom";
 import { styled } from "@mui/material";
 
-const FixedPagination = styled(Pagination)(() => ({
-  position: "fixed",
-  top: 120,
-  left: 40,
+const CenteredFilters = styled(Filters)(() => ({
+  display: "flex",
+  justifyContent: "center",
+}));
+
+const CenteredPagination = styled(Pagination)(() => ({
+  display: "flex",
+  justifyContent: "center",
 }));
 
 export const Characters = () => {
@@ -47,19 +51,19 @@ export const Characters = () => {
 
   return (
     <PageView title="All characters">
-      {!!lastPage && (
-        <FixedPagination
-          currentPage={currentPage}
-          lastPage={lastPage}
-          isLoading={isLoading}
-        />
-      )}
-      <Filters />
+      <CenteredFilters />
       <CharacterList
         characters={characters}
         hasError={!!error}
         isLoading={isLoading}
       />
+      {!!lastPage && (
+        <CenteredPagination
+          currentPage={currentPage}
+          lastPage={lastPage}
+          isLoading={isLoading}
+        />
+      )}
       {error && <ErrorMessage message={error} />}
     </PageView>
   );

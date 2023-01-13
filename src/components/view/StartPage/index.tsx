@@ -3,9 +3,9 @@ import { PageView } from "components/common/PageView";
 
 export const StartPage = () => (
   <PageView title="Start page">
-    <Box display="flex" justifyContent="center" alignItems="center">
+    <Box maxWidth="700px" margin="0 auto">
       <img
-        width={700}
+        width="100%"
         src="https://media.cdn.adultswim.com/uploads/20220904/2294143541-RAMMobileHero.png"
         alt="Rick and Morty"
       />

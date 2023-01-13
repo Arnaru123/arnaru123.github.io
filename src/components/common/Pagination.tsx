@@ -38,7 +38,8 @@ export const Pagination = ({
         component={Link}
         to={url(page)}
         disabled={disable}
-        variant={activePage === page ? "contained" : "outlined"}
+        variant={activePage === page ? "contained" : "text"}
+        style={{ marginBottom: "5px", padding: "3px" }}
       >
         {page}
       </Button>
@@ -50,7 +51,8 @@ export const Pagination = ({
         component={Link}
         to={url(1)}
         disabled={disable}
-        variant="outlined"
+        variant="text"
+        style={{ marginBottom: "5px", padding: "3px" }}
       >
         1
       </Button>
@@ -62,7 +64,8 @@ export const Pagination = ({
         component={Link}
         to={url(endPage)}
         disabled={disable}
-        variant="outlined"
+        variant="text"
+        style={{ marginBottom: "5px", padding: "3px" }}
       >
         {endPage}
       </Button>
@@ -110,7 +113,14 @@ export const Pagination = ({
   );
 
   return (
-    <Stack className={className} spacing={0.5}>
+    <Stack
+      marginTop={3}
+      flexWrap="wrap"
+      direction="row"
+      className={className}
+      spacing={0.5}
+      alignItems="center"
+    >
       {pagesList}
     </Stack>
   );
